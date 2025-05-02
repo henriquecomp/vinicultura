@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from interfaces.schemas.responses.production_response import ProductionResponse
-from use_cases.queries.scrape_production import ScrapeProduction
+from use_cases.queries.production_scrape import ProductionScrape
 
 # from sqlalchemy.orm import Session
 # from interfaces.schemas.requests.user_create_request import UserCreateRequest
@@ -22,8 +22,8 @@ router = APIRouter()
 
 
 @router.post("/production", response_model=list[ProductionResponse])
-def create_production():
-    use_case = ScrapeProduction()
+def create_production() -> list[ProductionResponse]:
+    use_case = ProductionScrape()
     return use_case.execute()
 
 

@@ -6,7 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from interfaces.schemas.responses.production_response import ProductionResponse
 
 
-class ScrapeProduction:
+class ProductionScrape:
     def execute(self) -> list[ProductionResponse]:
         chrome_options = Options()
         chrome_options.add_argument("--headless")
