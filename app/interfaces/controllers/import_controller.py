@@ -1,6 +1,8 @@
 from fastapi import APIRouter
 from interfaces.schemas.responses.import_response import ImportResponse
 from use_cases.queries.import_scrape import ImportScrape
+from use_cases.commands.create_import import CreateImportsCommand
+from use_cases.handlers.create_import_handler import CreateImportsHandler
 
 # from sqlalchemy.orm import Session
 # from interfaces.schemas.requests.user_create_request import UserCreateRequest
@@ -24,7 +26,11 @@ router = APIRouter()
 @router.post("/import", response_model=list[ImportResponse])
 def create_import() -> list[ImportResponse]:
     use_case = ImportScrape()
-    return use_case.execute()
+    data = use_case.execute()
+    scrapes = CreateImportsCommand(data)
+    use_case_command = CreateImportsHandler()
+    use_case_command.handle(scrapes)
+    return data
 
 
 @router.get("/import/{name}")

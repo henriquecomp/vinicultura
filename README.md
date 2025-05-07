@@ -1,3 +1,12 @@
+## Python Version
+
+Deve ser utilizada a versão 3.13.2
+
+## Criar o ambiente python
+
+`python -m venv .venv`
+`.venv\Scripts\activate`
+
 ## Instalar dependencias
 
 Deve estar dentro do diretorio /path/to/app

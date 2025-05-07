@@ -1,8 +1,13 @@
+from sqlalchemy.orm import Session
 from domain.repositories.import_repository import ImportRepository
-from interfaces.schemas.responses.import_response import ImportResponse
+from domain.entities.import_ import Import
 
 
 class ImportRepositorySQL(ImportRepository):
-    def save(self, items: list[ImportResponse]) -> list[ImportResponse]:
-        # Implement the logic to save items to the database
-        pass
+    def __init__(self, session: Session):
+        self.session = session
+
+    def save(self, item: Import) -> bool:
+        self.session.add(item)
+        self.session.commit()
+        return True

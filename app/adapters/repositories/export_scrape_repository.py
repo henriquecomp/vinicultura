@@ -20,5 +20,5 @@ class ExportScrapeRepository:
             ExportTarget(
                 "http://vitibrasil.cnpuv.embrapa.br/index.php?subopcao=subopt_04&opcao=opt_06",
                 "Suco de Uva",
-            )
+            ),
         ]
