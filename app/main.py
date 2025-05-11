@@ -1,10 +1,10 @@
 from fastapi import FastAPI
-from interfaces.controllers.user_controller import router as user_controller
-from interfaces.controllers.production_controller import router as production_controller
-from interfaces.controllers.processing_controller import router as processing_controller
-from interfaces.controllers.commercialization_controller import router as commercialization_controller
-from interfaces.controllers.import_controller import router as import_controller
-from interfaces.controllers.export_controller import router as export_controller
+from API.controllers.user_controller import router as user_controller
+from API.controllers.production_controller import router as production_controller
+from API.controllers.processing_controller import router as processing_controller
+from API.controllers.commercialization_controller import router as commercialization_controller
+from API.controllers.import_controller import router as import_controller
+from API.controllers.export_controller import router as export_controller
 
 
 app = FastAPI()
