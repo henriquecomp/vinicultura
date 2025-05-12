@@ -8,16 +8,6 @@ from infrastructure.db.database import get_db
 router = APIRouter()
 
 
-def get_command_use_case(session: Session = Depends(get_db)):
-    # return CreateUserUseCase(UserRepositorySQL(session))
-    pass
-
-
-def get_query_use_case(session: Session = Depends(get_db)):
-    # return GetUserByEmailQuery(UserRepositorySQL(session))
-    pass
-
-
 @router.post("/users", response_model=dict)
 def create_user(
     # user: UserCreateRequest, use_case: CreateUserUseCase = Depends(get_command_use_case)
