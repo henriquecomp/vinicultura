@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from API.models.responses.commercialization_response import CommercializationResponse
+from application.DTOs.commercialization_response import CommercializationResponse
 from application.services.commercialization_service import CommercializationService
 
 router = APIRouter()

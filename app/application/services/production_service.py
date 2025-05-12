@@ -1,5 +1,5 @@
 from infrastructure.external_services.production_scrape import ProductionScrape
-from API.models.responses.production_response import ProductionResponse
+from application.DTOs.production_response import ProductionResponse
 
 
 class ProductionService:

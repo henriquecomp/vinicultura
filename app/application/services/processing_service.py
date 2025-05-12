@@ -1,5 +1,5 @@
 from infrastructure.external_services.processing_scrape import ProcessingScrape
-from API.models.responses.processing_response import ProcessingResponse
+from application.DTOs.processing_response import ProcessingResponse
 
 
 class ProcessingService:

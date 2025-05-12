@@ -1,4 +1,4 @@
-from API.models.responses.export_response import ExportResponse
+from application.DTOs.export_response import ExportResponse
 from infrastructure.external_services.base_scrape import BaseScrape
 
 

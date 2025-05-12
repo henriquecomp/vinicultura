@@ -1,7 +1,8 @@
-from pydantic import BaseModel
+from dataclasses import dataclass
 
 
-class ExportResponse(BaseModel):
+@dataclass()
+class ExportResponse():
     category: str
     country: str
     quantity: float

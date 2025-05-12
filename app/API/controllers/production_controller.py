@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from API.models.responses.production_response import ProductionResponse
+from application.DTOs.production_response import ProductionResponse
 from application.services.production_service import ProductionService
 
 

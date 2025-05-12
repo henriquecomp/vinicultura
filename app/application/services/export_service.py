@@ -1,5 +1,5 @@
 from infrastructure.external_services.export_scrape import ExportScrape
-from API.models.responses.export_response import ExportResponse
+from application.DTOs.export_response import ExportResponse
 from infrastructure.repositories.export_scrape_repository import ExportScrapeRepository
 from application.common.url_handler import UrlHandler
 

@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from API.models.responses.export_response import ExportResponse
+from application.DTOs.export_response import ExportResponse
 from application.services.export_service import ExportService
 
 router = APIRouter()

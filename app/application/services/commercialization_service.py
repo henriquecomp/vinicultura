@@ -1,5 +1,5 @@
 from infrastructure.external_services.commercialization_scrape import CommercializationScrape
-from API.models.responses.commercialization_response import CommercializationResponse
+from application.DTOs.commercialization_response import CommercializationResponse
 
 
 class CommercializationService:

@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from API.models.responses.processing_response import ProcessingResponse
+from application.DTOs.processing_response import ProcessingResponse
 from application.services.processing_service import ProcessingService
 
 router = APIRouter()

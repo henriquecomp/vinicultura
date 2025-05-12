@@ -1,4 +1,4 @@
-from API.models.responses.processing_response import ProcessingResponse
+from application.DTOs.processing_response import ProcessingResponse
 from infrastructure.external_services.base_scrape import BaseScrape
 
 

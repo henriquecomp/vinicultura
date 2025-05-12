@@ -1,4 +1,4 @@
-from API.models.responses.commercialization_response import CommercializationResponse
+from application.DTOs.commercialization_response import CommercializationResponse
 from infrastructure.external_services.base_scrape import BaseScrape
 
 
