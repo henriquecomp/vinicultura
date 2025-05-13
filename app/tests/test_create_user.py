@@ -1,6 +1,6 @@
-from app.use_cases.commands.create_user import CreateUserUseCase
-from app.domain.entities.user import User
-from app.domain.repositories.user_repository import UserRepository
+from application.DTOs.create_user import UserResponse
+from domain.entities.user import User
+from domain.repositories.user_repository import UserRepository
 
 class FakeRepository(UserRepository):
     def __init__(self):

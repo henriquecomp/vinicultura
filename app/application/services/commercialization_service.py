@@ -1,15 +1,33 @@
-from infrastructure.external_services.commercialization_scrape import CommercializationScrape
+from infrastructure.external_services.commercialization_scrape import (
+    CommercializationScrape,
+)
 from application.DTOs.commercialization_response import CommercializationResponse
+from application.common.config import Config
+from application.common.url_handler import UrlHandler
 
 
 class CommercializationService:
 
-    def get_commercialization_by_year(self, year: int) -> list[CommercializationResponse]:
-        urlQuery = ""
-        if year is not None:
-            urlQuery = f"&ano={year}"
-
-        url = f"http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_04{urlQuery}"
-        commercialization_scrape = CommercializationScrape()
-
-        return commercialization_scrape.get_commercialization_by_year(url)
+    def get_commercialization_by_year(
+        self, year: int
+    ) -> list[CommercializationResponse]:
+        try:
+            data = []
+            config = Config().get_config("Commercialization")
+            for item in config:
+                url = UrlHandler().url_handler(item.url, year)
+                commercialization_scrape = CommercializationScrape()
+                results = commercialization_scrape.get_commercialization_by_year(url)
+                for item in results:
+                    data.append(
+                        CommercializationResponse(
+                            category=item.category,
+                            name=item.name,
+                            quantity=item.quantity,
+                        )
+                    )
+            return data
+        except Exception as e:
+            print(f"Error: {e}")
+            # Vou chamar infrastructure/repositories/production_csv.py
+            return []

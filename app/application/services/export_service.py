@@ -1,14 +1,14 @@
 from infrastructure.external_services.export_scrape import ExportScrape
 from application.DTOs.export_response import ExportResponse
-from infrastructure.repositories.export_scrape_repository import ExportScrapeRepository
 from application.common.url_handler import UrlHandler
+from application.common.config import Config
 
 
 class ExportService:
     def get_export_by_year(self, year: int) -> list[ExportResponse]:
-        urls = ExportScrapeRepository().get_export_target()
         data = []
-        for item in urls:
+        config = Config().get_config("Import")
+        for item in config:
             url = UrlHandler().url_handler(item.url, year)
             print(url)
             export_scrape = ExportScrape(item.category)
