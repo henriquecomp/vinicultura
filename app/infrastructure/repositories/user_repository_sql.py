@@ -13,6 +13,11 @@ class UserRepositorySQL(UserRepository):
         self.session.commit()
         return user
 
+    def update(self, user: User) -> User:
+        self.session.merge(user)
+        self.session.commit()
+        return user
+
     def get_by_email(self, email: str) -> User:
         result = self.session.execute(select(User).where(User.email == email))
         return result.scalars().first()

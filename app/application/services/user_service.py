@@ -35,6 +35,23 @@ class UserService:
             token=token,
         )
 
+    def change_password(self, db: Session, email: str, password: str) -> UserResponse:
+        user = UserRepositorySQL(db).get_by_email(email)
+        if not user:
+            raise Exception("Usuário não encontrado")
+
+        if self._check_password(password, user.password):
+            raise Exception("A nova senha não pode ser igual a senha atual")
+
+        user.password = self._hash_password(password)
+        updated_user = UserRepositorySQL(db).update(user)
+
+        return UserResponse(
+            id=updated_user.id,
+            name=updated_user.name,
+            email=updated_user.email,
+        )
+
     def _hash_password(self, password: str) -> str:
         salt = bcrypt.gensalt()
         hashed = bcrypt.hashpw(password.encode("utf-8"), salt)

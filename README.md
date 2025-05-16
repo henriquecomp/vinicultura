@@ -20,7 +20,7 @@ Deve estar dentro do diretorio /path/to/app
 ## Rodar a APP
 
 Deve estar dentro do diretorio /path/to/app
-`uvicorn main:app --reload`
+`uvicorn main:app --reload --log-level debug`
 
 ## Alembic
 
@@ -35,8 +35,8 @@ Deve estar dentro do diretorio /path/to/app
 - Deixar a aplicação resiliente com try catch (Eliel)
 - Cadastro de usuário (Henrique) - OK
 - JWT Token e fechar as rotas (Henrique) - OK
-- Alterar senha do usuário desde que ele esteja logado.
-- Logs (Henrique)
+- Alterar senha do usuário desde que ele esteja logado. - OK
+- Logs (Henrique) - OK
 - Testes unitários (Henrique e Eliel)
 - Deploy na nuvem (Henrique e Eliel)
 - Documentar os métodos com DocString (Henrique e Eliel)
