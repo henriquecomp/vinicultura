@@ -30,11 +30,12 @@ Deve estar dentro do diretorio /path/to/app
 
 ## Próximos passos
 
-- Tirar as urls e colocar em um arquivo de configuração (Henrique)
+- Tirar as urls e colocar em um arquivo de configuração (Henrique) - OK
 - Ler os arquivos csvs e transformar em resposta em caso de falha da url (Eliel)
 - Deixar a aplicação resiliente com try catch (Eliel)
-- Cadastro de usuário (Henrique)
-- JWT Token e fechar as rotas (Henrique)
+- Cadastro de usuário (Henrique) - OK
+- JWT Token e fechar as rotas (Henrique) - OK
+- Alterar senha do usuário desde que ele esteja logado.
 - Logs (Henrique)
 - Testes unitários (Henrique e Eliel)
 - Deploy na nuvem (Henrique e Eliel)

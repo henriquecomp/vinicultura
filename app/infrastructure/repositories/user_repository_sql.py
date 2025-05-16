@@ -8,12 +8,11 @@ class UserRepositorySQL(UserRepository):
     def __init__(self, session: Session):
         self.session = session
 
-    def save(self, user: User) -> None:
+    def save(self, user: User) -> User:
         self.session.add(user)
         self.session.commit()
+        return user
 
     def get_by_email(self, email: str) -> User:
-        result = self.session.execute(
-            select(User).where(User.email == email)
-        )
+        result = self.session.execute(select(User).where(User.email == email))
         return result.scalars().first()
