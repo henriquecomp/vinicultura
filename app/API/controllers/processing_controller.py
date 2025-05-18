@@ -11,6 +11,25 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 @router.get("/processing/", response_model=list[ProcessingResponse])
 def get_processing(token: Annotated[str, Depends(oauth2_scheme)], year: int = 2023) -> list[ProcessingResponse]:
+    """
+        Recupera os dados de processamento de produtos de uva
+
+        Args:
+            year (int): Ano que deseja ver os dados. Caso não informado, o valor padrão será 2023.        
+
+        Returns:
+            list: Uma lista seguindo a estrutura:
+                [
+                    {
+                        "category": str, # categoria do produto
+                        "name": str, # Nome do produto
+                        "quantity": int, # Quantidade processada em KG
+                    }
+                ]
+
+        Raises:
+            HTTPException: Se o usuário ou senha forem inválidos.
+    """    
     check_access(token)
     processing_service = ProcessingService()
     return processing_service.get_processing_by_year(year)

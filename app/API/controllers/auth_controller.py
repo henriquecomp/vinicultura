@@ -11,6 +11,23 @@ router = APIRouter()
 def login(
     form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)
 ):
+    """
+    Realiza o login do usuário
+
+    Args:
+        username (string): O e-mail do usuário cadastrado
+        password (string): Senha do usuário cadastrado
+
+    Returns:
+        dict: Um dicionário seguindo a estrutura:
+            {
+                "access_token": str, # JWT Token da sessão
+                "token_type": str, # Tipo do token "Bearer"
+            }
+
+    Raises:
+        HTTPException: Se o usuário ou senha forem inválidos.
+    """
     user = UserService().auth_by_email(db, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
