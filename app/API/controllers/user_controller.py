@@ -21,7 +21,7 @@ def create_user(
 ):
     check_access(token)
     user_added = UserService().add_user(
-        db, user.name, get_current_user(token), user.password
+        db, user.name, user.email, user.password
     )
     return user_added
 
@@ -43,14 +43,3 @@ def change_password(
             status_code=400,
             detail=str(e),
         )
-
-
-@router.get("/users/{email}", response_model=UserResponse)
-def get_user(
-    # email: str, use_case: GetUserByEmailQuery = Depends(get_query_use_case)
-):
-    # user = use_case.execute(email)
-    # if not user:
-    #    raise HTTPException(status_code=404, detail="Usuário não encontrado")
-    # return user
-    pass
