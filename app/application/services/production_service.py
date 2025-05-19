@@ -26,4 +26,10 @@ class ProductionService:
         except Exception as e:
             print(f"Error: {e}")
             # Vou chamar infrastructure/repositories/production_csv.py
+            config = Config().get_config("Production")
+            for item in config:
+                fileName = item.file
+
+
+            print(config)
             return []
