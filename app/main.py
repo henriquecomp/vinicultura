@@ -5,15 +5,15 @@ import uuid
 from datetime import datetime
 from typing import Dict, Any
 from fastapi import FastAPI, Request, Response
-from app.API.controllers.auth_controller import router as auth_controller
-from app.API.controllers.production_controller import router as production_controller
-from app.API.controllers.processing_controller import router as processing_controller
-from app.API.controllers.commercialization_controller import (
+from api.controllers.auth_controller import router as auth_controller
+from api.controllers.production_controller import router as production_controller
+from api.controllers.processing_controller import router as processing_controller
+from api.controllers.commercialization_controller import (
     router as commercialization_controller,
 )
-from app.API.controllers.import_controller import router as import_controller
-from app.API.controllers.export_controller import router as export_controller
-from app.API.controllers.user_controller import router as user_controller
+from api.controllers.import_controller import router as import_controller
+from api.controllers.export_controller import router as export_controller
+from api.controllers.user_controller import router as user_controller
 
 
 # Configuração do logging

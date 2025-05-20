@@ -2,7 +2,7 @@ from typing import Annotated
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordBearer
 from application.services.production_service import ProductionService
-from API.common.check_access import check_access
+from api.common.check_access import check_access
 
 
 router = APIRouter()

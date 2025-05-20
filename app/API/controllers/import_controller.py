@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordBearer
 from application.DTOs.import_response import ImportResponse
 from application.services.import_service import ImportService
-from API.common.check_access import check_access
+from api.common.check_access import check_access
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
