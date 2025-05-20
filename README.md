@@ -32,7 +32,15 @@ Deve estar dentro do diretorio /path/to/app
 
 - Tirar as urls e colocar em um arquivo de configuração (Henrique) - OK
 - Ler os arquivos csvs e transformar em resposta em caso de falha da url (Eliel)
-- Deixar a aplicação resiliente com try catch (Eliel)
+    - Services
+    - Controllers => Generica
+try 
+raise Base de dados (Usuario)
+raise Comunicacao
+raise File
+raise Pandas
+raise Exception
+- Deixar a aplicação resiliente com try raise (Eliel)
 - Cadastro de usuário (Henrique) - OK
 - JWT Token e fechar as rotas (Henrique) - OK
 - Alterar senha do usuário desde que ele esteja logado. - OK
