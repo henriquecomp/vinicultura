@@ -7,10 +7,9 @@ from application.common.config import Config
 class ExportService:
     def get_export_by_year(self, year: int) -> list[ExportResponse]:
         data = []
-        config = Config().get_config("Import")
+        config = Config().get_config("Export")
         for item in config:
-            url = UrlHandler().url_handler(item.url, year)
-            print(url)
+            url = UrlHandler().url_handler(item.url, year)            
             export_scrape = ExportScrape(item.category)
             result = export_scrape.get_export_by_year(url)
             for item in result:
