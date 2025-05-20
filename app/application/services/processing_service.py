@@ -3,7 +3,6 @@ from application.DTOs.processing_response import ProcessingResponse
 from application.common.config import Config
 from application.common.url_handler import UrlHandler
 
-
 class ProcessingService:
 
     def get_processing_by_year(self, year: int) -> list[ProcessingResponse]:
@@ -26,4 +25,4 @@ class ProcessingService:
         except Exception as e:
             print(f"Error: {e}")
             # Vou chamar infrastructure/repositories/production_csv.py
-            return []
+            return retornar_processamento_csv("C:\\Eliel\\Pessoal\\ML\\Trabalho\\vinicultura\\app\\infrastructure\\files\\ProcessaAmericanas.csv", "processamento", "2023")

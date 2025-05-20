@@ -1,3 +1,4 @@
+from infrastructure.repositories.comercio_csv import retornar_comercio_csv
 from infrastructure.external_services.commercialization_scrape import (
     CommercializationScrape,
 )
@@ -28,6 +29,18 @@ class CommercializationService:
                     )
             return data
         except Exception as e:
-            print(f"Error: {e}")
             # Vou chamar infrastructure/repositories/production_csv.py
-            return []
+            data = []
+            config = Config().get_config("Commercialization")
+            for item in config:
+                results = retornar_comercio_csv(item.path, item.category, year)
+                for item in results:
+                    data.append(
+                        CommercializationResponse(
+                            category=item.category,
+                            name=item.name,
+                            quantity=item.quantity,
+                        )
+                    )
+            return data
+
