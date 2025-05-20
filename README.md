@@ -130,3 +130,214 @@ else InvalidUser
     Controller --> Usuario: 401 Unauthorized
 
 @enduml
+
+## Production
+@startuml
+autonumber
+actor Usuario
+participant "ProductionController" as Controller
+participant "CheckAccess" as CheckAccess
+participant "ProductionService" as Application
+participant "ApplicationConfig" as Config
+participant "UrlHandler" as UrlHandler
+participant "ProductionScrape" as Scrape
+participant "BaseScrape" as BaseScrape
+
+'Requisição autenticada
+Usuario -> Controller: header: Authorization: Bearer token, get_production(year) 
+Controller -> CheckAccess: check_access()
+
+alt Token Válido
+    alt 
+        CheckAccess --> Controller: check_access()
+        Controller -> Application: get_production_by_year(year)
+        Application -> Config: get_config("Production") 
+        Config --> Application: list[ConfigResponse]
+        loop para cada item na lista de configuração
+            Application -> UrlHandler: url_handler(url, year)
+            UrlHandler --> Application: str (url)
+            Application -> Scrape: get_production_by_year(url)
+            Scrape -> BaseScrape: BaseScrape(url).handle()
+            BaseScrape --> Scrape: list[BaseScrapeValueObject]
+            Scrape --> Application: list[ProductionResponse]
+        end
+        Application --> Controller: list[ProductionResponse]
+        Controller --> Usuario: 200 + list[ProductionResponse]
+    else Exception
+        Application --> Controller: Exception
+        Controller --> Usuario: 500 + Internal Server Error { "detail": "message" }
+else Token Inválido
+    CheckAccess --> Controller: check_access(): Invalid token
+    Controller --> Usuario: 401 Unauthorized
+
+@enduml
+
+
+## Commercialization
+
+@startuml
+autonumber
+actor Usuario
+participant "CommercializationController" as Controller
+participant "CheckAccess" as CheckAccess
+participant "CommercializationService" as Application
+participant "ApplicationConfig" as Config
+participant "UrlHandler" as UrlHandler
+participant "CommercializationScrape" as Scrape
+participant "BaseScrape" as BaseScrape
+
+'Requisição autenticada
+Usuario -> Controller: header: Authorization: Bearer token, get_commercialization(year) 
+Controller -> CheckAccess: check_access()
+
+alt Token Válido
+    alt 
+        CheckAccess --> Controller: check_access()
+        Controller -> Application: get_commercialization_by_year(year)
+        Application -> Config: get_config("Commercialization") 
+        Config --> Application: list[ConfigResponse]
+        loop para cada item na lista de configuração
+            Application -> UrlHandler: url_handler(url, year)
+            UrlHandler --> Application: str (url)
+            Application -> Scrape: get_commercialization_by_year(url)
+            Scrape -> BaseScrape: BaseScrape(url).handle()
+            BaseScrape --> Scrape: list[BaseScrapeValueObject]
+            Scrape --> Application: list[CommercializationResponse]
+        end
+        Application --> Controller: list[CommercializationResponse]
+        Controller --> Usuario: 200 + list[CommercializationResponse]        
+    else Exception
+        Application --> Controller: Exception
+        Controller --> Usuario: 500 + Internal Server Error { "detail": "message" }
+else Token Inválido
+    CheckAccess --> Controller: check_access(): Invalid token
+    Controller --> Usuario: 401 Unauthorized
+
+@enduml
+
+## Processing
+
+@startuml
+autonumber
+actor Usuario
+participant "ProcessingController" as Controller
+participant "CheckAccess" as CheckAccess
+participant "ProcessingService" as Application
+participant "ApplicationConfig" as Config
+participant "UrlHandler" as UrlHandler
+participant "ProcessingScrape" as Scrape
+participant "BaseScrape" as BaseScrape
+
+'Requisição autenticada
+Usuario -> Controller: header: Authorization: Bearer token, get_processing(year) 
+Controller -> CheckAccess: check_access()
+
+alt Token Válido
+    alt 
+        CheckAccess --> Controller: check_access()
+        Controller -> Application: get_processing_by_year(year)
+        Application -> Config: get_config("Processing") 
+        Config --> Application: list[ConfigResponse]
+        loop para cada item na lista de configuração
+            Application -> UrlHandler: url_handler(url, year)
+            UrlHandler --> Application: str (url)
+            Application -> Scrape: get_processing_by_year(url)
+            Scrape -> BaseScrape: BaseScrape(url).handle()
+            BaseScrape --> Scrape: list[BaseScrapeValueObject]
+            Scrape --> Application: list[ProcessingResponse]
+        end
+        Application --> Controller: list[ProcessingResponse]
+        Controller --> Usuario: 200 + list[ProcessingResponse]
+    else Exception
+        Application --> Controller: Exception
+        Controller --> Usuario: 500 + Internal Server Error { "detail": "message" }
+else Token Inválido
+    CheckAccess --> Controller: check_access(): Invalid token
+    Controller --> Usuario: 401 Unauthorized
+
+@enduml
+
+## Export
+
+@startuml
+autonumber
+actor Usuario
+participant "ExportController" as Controller
+participant "CheckAccess" as CheckAccess
+participant "ExportService" as Application
+participant "ApplicationConfig" as Config
+participant "UrlHandler" as UrlHandler
+participant "ExportScrape" as Scrape
+participant "BaseScrape" as BaseScrape
+
+'Requisição autenticada
+Usuario -> Controller: header: Authorization: Bearer token, get_export(year) 
+Controller -> CheckAccess: check_access()
+
+alt Token Válido
+    alt 
+        CheckAccess --> Controller: check_access()
+        Controller -> Application: get_export_by_year(year)
+        Application -> Config: get_config("Export") 
+        Config --> Application: list[ConfigResponse]
+        loop para cada item na lista de configuração
+            Application -> UrlHandler: url_handler(url, year)
+            UrlHandler --> Application: str (url)
+            Application -> Scrape: get_export_by_year(url)
+            Scrape -> BaseScrape: BaseScrape(url).handle()
+            BaseScrape --> Scrape: list[BaseScrapeValueObject]
+            Scrape --> Application: list[ExportResponse]
+        end
+        Application --> Controller: list[ExportResponse]
+        Controller --> Usuario: 200 + list[ExportResponse]
+    else Exception
+        Application --> Controller: Exception
+        Controller --> Usuario: 500 + Internal Server Error { "detail": "message" }
+else Token Inválido
+    CheckAccess --> Controller: check_access(): Invalid token
+    Controller --> Usuario: 401 Unauthorized
+
+@enduml
+
+
+## Import
+
+@startuml
+autonumber
+actor Usuario
+participant "ImportController" as Controller
+participant "CheckAccess" as CheckAccess
+participant "ImportService" as Application
+participant "ApplicationConfig" as Config
+participant "UrlHandler" as UrlHandler
+participant "ImportScrape" as Scrape
+participant "BaseScrape" as BaseScrape
+
+'Requisição autenticada
+Usuario -> Controller: header: Authorization: Bearer token, get_import(year) 
+Controller -> CheckAccess: check_access()
+
+alt Token Válido
+    alt 
+        CheckAccess --> Controller: check_access()
+        Controller -> Application: get_import_by_year(year)
+        Application -> Config: get_config("Import") 
+        Config --> Application: list[ConfigResponse]
+        loop para cada item na lista de configuração
+            Application -> UrlHandler: url_handler(url, year)
+            UrlHandler --> Application: str (url)
+            Application -> Scrape: get_import_by_year(url)
+            Scrape -> BaseScrape: BaseScrape(url).handle()
+            BaseScrape --> Scrape: list[BaseScrapeValueObject]
+            Scrape --> Application: list[ImportResponse]
+        end
+        Application --> Controller: list[ImportResponse]
+        Controller --> Usuario: 200 + list[ImportResponse]
+    else Exception
+        Application --> Controller: Exception
+        Controller --> Usuario: 500 + Internal Server Error { "detail": "message" }
+else Token Inválido
+    CheckAccess --> Controller: check_access(): Invalid token
+    Controller --> Usuario: 401 Unauthorized
+
+@enduml
