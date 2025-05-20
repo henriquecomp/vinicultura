@@ -25,4 +25,4 @@ class ProcessingService:
         except Exception as e:
             print(f"Error: {e}")
             # Vou chamar infrastructure/repositories/production_csv.py
-            return retornar_processamento_csv("C:\\Eliel\\Pessoal\\ML\\Trabalho\\vinicultura\\app\\infrastructure\\files\\ProcessaAmericanas.csv", "processamento", "2023")
+            return []
