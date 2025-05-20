@@ -40,7 +40,7 @@ Deve estar dentro do diretorio /path/to/app
 - Testes unitários (Henrique e Eliel)
 - Deploy na nuvem (Henrique e Eliel)
 - Documentar os métodos com DocString (Henrique e Eliel)
-- Criar o diagrama de arquitetura (Henrique e Eliel)
+- Criar o diagrama de arquitetura (Henrique e Eliel) - OK -> Deve adicionar a logica do Eliel
 - Video de apresentacao (Henrique e Eliel)
 - Documentar no README conforme solicitação da FIAP (Henrique e Eliel)
 
