@@ -7,6 +7,27 @@ from application.common.url_handler import UrlHandler
 class ProductionService:
 
     def get_production_by_year(self, year: int) -> list[ProductionResponse]:
+        """
+        Serviço que configura a raspagem de dados na aba de produção do sitema da Embrapa 
+        e trata o retorno da raspagem devolvida da enviar para o endpoint
+
+        Args:
+            year: int, # Ano que é passado por parametro pelo endpoint para filtrar os dados para a raspagem
+
+        Returns:
+            list: Uma lista dos dados de produção raspados
+                [
+                    {
+                        "category": str, # categoria do produto
+                        "name": str, # nome do produto
+                        "quantity": float, # a quantidade em Kg do produto raspado
+                    }
+                ]            
+
+        Raises:
+            Exception: Caso haja um lançamento de exception, irá acionar o arquivo para retornar os dados
+                        como uma forma de responder a requisição caso o site esteja indisponível.
+        """          
         try:
             data = []
             config = Config().get_config("Production")
