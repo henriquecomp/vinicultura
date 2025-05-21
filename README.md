@@ -51,6 +51,7 @@ raise Exception
 - Criar o diagrama de arquitetura (Henrique e Eliel) - OK -> Deve adicionar a logica do Eliel
 - Video de apresentacao (Henrique e Eliel)
 - Documentar no README conforme solicitação da FIAP (Henrique e Eliel)
+- No arquivo security_service tem a chave da api. Devemos modificar para o .env
 
 
 # Diagrama de Sequencia
