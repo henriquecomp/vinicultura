@@ -4,6 +4,25 @@ from infrastructure.external_services.base_scrape import BaseScrape
 
 class ProductionScrape:
     def get_production_by_year(self, url) -> list[ProductionResponse]:
+        """
+        Serviço que utiliza o serviço BaseScrape (genérico) e especializa os 
+        dados devolvendo-os como dados de produção.
+
+        Args:
+            
+
+        Returns:
+            list[ProductionResponse]: Dados do usuário criado:
+                {
+                    category: str, # categoria do produto
+                    nome: str, # nome do produto
+                    quantity: float, # quantidade do produto                                        
+                }
+
+        Raises:
+            
+
+        """           
         result = BaseScrape(url).handle()
         data = []
 

@@ -56,6 +56,28 @@ class BaseScrape:
             raise Exception(f"Error finding table: {e}")
 
     def handle(self) -> list[BaseScrapeValueObject]:
+        """
+        Serviço que faz o scrape de dados genérico 
+        utilizando a URL enviada via construtor
+        o site é o da vinicultura da embrapa.
+        Caso seja informado outro deverá ocorrer erros.
+
+        Args:
+            
+
+        Returns:
+            list[BaseScrapeValueObject]: Dados do usuário criado:
+                {
+                    category: str, # categoria do produto
+                    name: str, # nome do produto
+                    quantity: float, # quantidade do produto
+                    value: float # valor do produto em dolar
+                }
+
+        Raises:
+            
+
+        """
         driver = self._initialize_driver()
         driver.get(self.url)
 
