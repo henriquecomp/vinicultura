@@ -14,7 +14,7 @@ class CommercializationCSV:
                 CommercializationResponse(
                     category=category,
                     name=str(row["Produto"]),
-                    quantity=int(row[f"{year}"]),
+                    quantity=int(row[f"{year}"])
                 )
             )
 

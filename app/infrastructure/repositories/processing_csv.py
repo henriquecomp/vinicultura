@@ -14,6 +14,25 @@ def retornar_processamento_csv(file_path, categoria, ano):
     return json.dumps(resultado, ensure_ascii=False, indent=2)
 
 
-resultado_teste = retornar_processamento_csv("C:\\Eliel\\Pessoal\\ML\\Trabalho\\vinicultura\\app\\infrastructure\\files\\ProcessaAmericanas.csv", "processamento", "2023")
-print(resultado_teste)
+from application.DTOs.processing_response import ProcessingResponse
+import pandas as pd
 
+
+class ProcessingCSV:
+
+    def get_processing_by_year_csv(
+        self, file_path, category, year
+    ) -> list[ProcessingResponse]:
+        df = pd.read_csv(file_path, delimiter=";")
+        data = []
+        for _, row in df.iterrows():
+            data.append(
+                ProcessingResponse(
+                    category=category,
+                    name=str(row["cultivar"]),
+                    quantity=int(row[f"{year}"])
+                )
+            )
+
+        return data
+    

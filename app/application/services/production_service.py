@@ -2,11 +2,13 @@ from infrastructure.external_services.production_scrape import ProductionScrape
 from application.DTOs.production_response import ProductionResponse
 from application.common.config import Config
 from application.common.url_handler import UrlHandler
+from infrastructure.repositories.production_csv import ProductionCSV
 
 
 class ProductionService:
 
     def get_production_by_year(self, year: int) -> list[ProductionResponse]:
+        
         """
         Serviço que configura a raspagem de dados na aba de produção do sitema da Embrapa 
         e trata o retorno da raspagem devolvida da enviar para o endpoint
@@ -29,6 +31,8 @@ class ProductionService:
                         como uma forma de responder a requisição caso o site esteja indisponível.
         """          
         try:
+            
+            division = 1 / 0        # retirar esta linha
             data = []
             config = Config().get_config("Production")
             for item in config:
@@ -45,12 +49,17 @@ class ProductionService:
                     )
             return data
         except Exception as e:
-            print(f"Error: {e}")
-            # Vou chamar infrastructure/repositories/production_csv.py
+            data = []
             config = Config().get_config("Production")
-            for item in config:
-                fileName = item.file
+            for item in config:                
+                results = ProductionCSV().get_production_by_year_csv(item.file, item.category, year)
+                for item in results:
+                    data.append(
+                        ProductionResponse(
+                            category=item.category,
+                            name=item.name,
+                            quantity=item.quantity
+                        )
+                    )
 
-
-            print(config)
-            return []
+            return data

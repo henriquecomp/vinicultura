@@ -2,12 +2,14 @@ from infrastructure.external_services.import_scrape import ImportScrape
 from application.DTOs.import_response import ImportResponse
 from application.common.url_handler import UrlHandler
 from application.common.config import Config
+from infrastructure.repositories.import_csv import ImportCSV
 
 
 
 class ImportService:
 
     def get_import_by_year(self, year: int) -> list[ImportResponse]:
+        
         """
         Serviço que configura a raspagem de dados na aba de Importação do sitema da Embrapa 
         e trata o retorno da raspagem devolvida da enviar para o endpoint
@@ -30,20 +32,41 @@ class ImportService:
             Exception: Caso haja um lançamento de exception, irá acionar o arquivo para retornar os dados
                         como uma forma de responder a requisição caso o site esteja indisponível.
         """          
-        data = []
-        config = Config().get_config("Import")
-        for item in config:
-            url = UrlHandler().url_handler(item.url, year)
-            import_scrape = ImportScrape(item.category)
-            result = import_scrape.get_import_by_year(url)
-            for item in result:
-                data.append(
-                    ImportResponse(
-                        category=item.category,
-                        country=item.country,
-                        quantity=item.quantity,
-                        value=item.value,
+        
+        try:
+            division = 1 / 0        # retirar esta linha
+            
+            data = []
+            config = Config().get_config("Import")
+            for item in config:
+                url = UrlHandler().url_handler(item.url, year)
+                import_scrape = ImportScrape(item.category)
+                result = import_scrape.get_import_by_year(url)
+                for item in result:
+                    data.append(
+                        ImportResponse(
+                            category=item.category,
+                            country=item.country,
+                            quantity=item.quantity,
+                            value=item.value,
+                        )
                     )
-                )
 
-        return data
+            return data
+        
+        except Exception as e:
+            data = []
+            config = Config().get_config("Import")
+            for item in config:                
+                results = ImportCSV().get_import_by_year_csv(item.file, item.category, year)
+                for item in results:
+                    data.append(
+                        ImportResponse(
+                            category=item.category,
+                            country=item.country,
+                            quantity=item.quantity,
+                            value=item.value
+                        )
+                    )
+
+            return data

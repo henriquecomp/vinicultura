@@ -6,12 +6,10 @@ from application.common.config import Config
 from application.common.url_handler import UrlHandler
 from infrastructure.repositories.commercialization_csv import CommercializationCSV
 
-
 class CommercializationService:
 
-    def get_commercialization_by_year(
-        self, year: int
-    ) -> list[CommercializationResponse]:
+    def get_commercialization_by_year(self, year: int) -> list[CommercializationResponse]:
+
         """
         Serviço que configura a raspagem de dados na aba de Comercialização do sitema da Embrapa 
         e trata o retorno da raspagem devolvida da enviar para o endpoint
@@ -35,7 +33,7 @@ class CommercializationService:
         """           
         try:
 
-            division = 1 / 0
+            division = 1 / 0        # retirar esta linha
             data = []
             config = Config().get_config("Commercialization")
             for item in config:
