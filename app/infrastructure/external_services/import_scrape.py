@@ -7,6 +7,26 @@ class ImportScrape:
         self.category = category
 
     def get_import_by_year(self, url) -> list[ImportResponse]:
+        """
+        Serviço que utiliza o serviço BaseScrape (genérico) e especializa os 
+        dados devolvendo-os como dados de importação.
+
+        Args:
+            
+
+        Returns:
+            list[ImportResponse]: Dados do usuário criado:
+                {
+                    category: str, # categoria do produto
+                    country: str, # país importação
+                    quantity: float, # quantidade do produto                    
+                    value: float, # valor em dolares
+                }
+
+        Raises:
+            
+
+        """            
         result = BaseScrape(url).handle()
         data = []
 

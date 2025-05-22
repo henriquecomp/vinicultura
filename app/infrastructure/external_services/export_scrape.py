@@ -7,6 +7,26 @@ class ExportScrape:
         self.category = category
 
     def get_export_by_year(self, url) -> list[ExportResponse]:
+        """
+        Serviço que utiliza o serviço BaseScrape (genérico) e especializa os 
+        dados devolvendo-os como dados de exportação.
+
+        Args:
+            
+
+        Returns:
+            list[ExportResponse]: Dados do usuário criado:
+                {
+                    category: str, # categoria do produto
+                    country: str, # país exportação
+                    quantity: float, # quantidade do produto                    
+                    value: float, # valor em dolares
+                }
+
+        Raises:
+            
+
+        """            
         result = BaseScrape(url).handle()
         data = []
 
