@@ -1,8 +1,8 @@
-from infrastructure.external_services.production_scrape import ProductionScrape
-from application.DTOs.production_response import ProductionResponse
-from application.common.config import Config
-from application.common.url_handler import UrlHandler
-from infrastructure.repositories.production_csv import ProductionCSV
+from app.infrastructure.external_services.production_scrape import ProductionScrape
+from app.application.DTOs.production_response import ProductionResponse
+from app.application.common.config import Config
+from app.application.common.url_handler import UrlHandler
+from app.infrastructure.repositories.production_csv import ProductionCSV
 
 
 class ProductionService:

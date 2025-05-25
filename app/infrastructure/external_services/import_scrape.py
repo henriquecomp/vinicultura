@@ -1,5 +1,5 @@
-from application.DTOs.import_response import ImportResponse
-from infrastructure.external_services.base_scrape import BaseScrape
+from app.application.DTOs.import_response import ImportResponse
+from app.infrastructure.external_services.base_scrape import BaseScrape
 
 
 class ImportScrape:

@@ -4,7 +4,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
 from webdriver_manager.chrome import ChromeDriverManager
-from domain.value_objects.base_scrape import BaseScrapeValueObject
+from app.domain.value_objects.base_scrape import BaseScrapeValueObject
 
 
 class BaseScrape:

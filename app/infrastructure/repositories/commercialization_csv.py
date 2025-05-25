@@ -1,4 +1,4 @@
-from application.DTOs.commercialization_response import CommercializationResponse
+from app.application.DTOs.commercialization_response import CommercializationResponse
 import pandas as pd
 
 

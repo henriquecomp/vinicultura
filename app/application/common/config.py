@@ -1,7 +1,7 @@
 import json
 import jmespath
 import logging
-from application.DTOs.config_response import ConfigResponse
+from app.application.DTOs.config_response import ConfigResponse
 
 logger = logging.getLogger(__name__)
 

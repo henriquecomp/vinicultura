@@ -1,4 +1,4 @@
-from application.DTOs.import_response import ImportResponse
+from app.application.DTOs.import_response import ImportResponse
 import pandas as pd
 
 

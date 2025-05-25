@@ -1,5 +1,5 @@
-from application.DTOs.commercialization_response import CommercializationResponse
-from infrastructure.external_services.base_scrape import BaseScrape
+from app.application.DTOs.commercialization_response import CommercializationResponse
+from app.infrastructure.external_services.base_scrape import BaseScrape
 
 
 class CommercializationScrape:

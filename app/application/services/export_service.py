@@ -1,10 +1,10 @@
-from infrastructure.external_services.export_scrape import (
+from app.infrastructure.external_services.export_scrape import (
     ExportScrape,
 )
-from application.DTOs.export_response import ExportResponse
-from application.common.config import Config
-from application.common.url_handler import UrlHandler
-from infrastructure.repositories.export_csv import ExportCSV
+from app.application.DTOs.export_response import ExportResponse
+from app.application.common.config import Config
+from app.application.common.url_handler import UrlHandler
+from app.infrastructure.repositories.export_csv import ExportCSV
 
 class ExportService:
     

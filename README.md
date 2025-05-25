@@ -9,17 +9,17 @@ Deve ser utilizada a versão 3.13.2
 
 ## Instalar dependencias
 
-Deve estar dentro do diretorio /path/to/app
-`pip install -r /path/to/requirements.txt`
+Deve estar dentro do diretorio /
+`pip install -r requirements.txt`
 
 ## Congelar dependências
 
-Deve estar dentro do diretorio /path/to/app
+Deve estar dentro do diretorio /
 `pip freeze > requirements.txt`
 
 ## Rodar a APP
 
-Deve estar dentro do diretorio /path/to/app
+Deve estar dentro do diretorio /
 `uvicorn main:app --reload --log-level debug`
 
 ## Alembic

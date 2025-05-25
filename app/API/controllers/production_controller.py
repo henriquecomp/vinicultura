@@ -1,8 +1,8 @@
 from typing import Annotated
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordBearer
-from application.services.production_service import ProductionService
-from api.common.check_access import check_access
+from app.application.services.production_service import ProductionService
+from app.api.common.check_access import check_access
 
 
 router = APIRouter()

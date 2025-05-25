@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from application.services.security_service import decode_token
+from app.application.services.security_service import decode_token
 
 
 def check_access(token: str):

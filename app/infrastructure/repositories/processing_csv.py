@@ -1,5 +1,7 @@
 import pandas as pd
 import json
+from app.application.DTOs.processing_response import ProcessingResponse
+import pandas as pd
 
 def retornar_processamento_csv(file_path, categoria, ano):
 
@@ -12,10 +14,6 @@ def retornar_processamento_csv(file_path, categoria, ano):
         for _, row in df.iterrows()
     ]
     return json.dumps(resultado, ensure_ascii=False, indent=2)
-
-
-from application.DTOs.processing_response import ProcessingResponse
-import pandas as pd
 
 
 class ProcessingCSV:

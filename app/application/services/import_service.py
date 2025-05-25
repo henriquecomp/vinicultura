@@ -1,8 +1,8 @@
-from infrastructure.external_services.import_scrape import ImportScrape
-from application.DTOs.import_response import ImportResponse
-from application.common.url_handler import UrlHandler
-from application.common.config import Config
-from infrastructure.repositories.import_csv import ImportCSV
+from app.infrastructure.external_services.import_scrape import ImportScrape
+from app.application.DTOs.import_response import ImportResponse
+from app.application.common.url_handler import UrlHandler
+from app.application.common.config import Config
+from app.infrastructure.repositories.import_csv import ImportCSV
 
 
 

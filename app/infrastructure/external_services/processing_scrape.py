@@ -1,5 +1,5 @@
-from application.DTOs.processing_response import ProcessingResponse
-from infrastructure.external_services.base_scrape import BaseScrape
+from app.application.DTOs.processing_response import ProcessingResponse
+from app.infrastructure.external_services.base_scrape import BaseScrape
 
 
 class ProcessingScrape:

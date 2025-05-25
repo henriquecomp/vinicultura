@@ -1,5 +1,5 @@
-from application.DTOs.production_response import ProductionResponse
-from infrastructure.external_services.base_scrape import BaseScrape
+from app.application.DTOs.production_response import ProductionResponse
+from app.infrastructure.external_services.base_scrape import BaseScrape
 
 
 class ProductionScrape:

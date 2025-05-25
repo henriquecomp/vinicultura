@@ -1,10 +1,10 @@
 import bcrypt
 from sqlalchemy.orm import Session
-from application.DTOs.user_response import UserResponse
-from application.DTOs.auth_response import AuthResponse
-from domain.entities.user import User
-from infrastructure.repositories.user_repository_sql import UserRepositorySQL
-from application.services.security_service import create_access_token, verify_password
+from app.application.DTOs.user_response import UserResponse
+from app.application.DTOs.auth_response import AuthResponse
+from app.domain.entities.user import User
+from app.infrastructure.repositories.user_repository_sql import UserRepositorySQL
+from app.application.services.security_service import create_access_token, verify_password
 
 
 class UserService:
