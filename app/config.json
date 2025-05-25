@@ -5,7 +5,7 @@
       {
         "category": "",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_02",
-        "file": "./infrastructure/files/Producao.csv"
+        "file": "./app/infrastructure/files/Producao.csv"
       }
     ]
   },
@@ -15,22 +15,22 @@
       {
         "category": "Viniferas",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?subopcao=subopt_01&opcao=opt_03",
-        "file": "./infrastructure/files/ProcessaViniferas.csv"
+        "file": "./app/infrastructure/files/ProcessaViniferas.csv"
       },
       {
         "category": "Americanas e Hibridas",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?subopcao=subopt_02&opcao=opt_03",
-        "file": "./infrastructure/files/ProcessaAmericanas.csv"
+        "file": "./app/infrastructure/files/ProcessaAmericanas.csv"
       },
       {
         "category": "Uvas de Mesa",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?subopcao=subopt_03&opcao=opt_03",
-        "file": "./infrastructure/files/ProcessaMesa.csv"
+        "file": "./app/infrastructure/files/ProcessaMesa.csv"
       },
       {
         "category": "Sem Classificacao",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_03",
-        "file": "./infrastructure/files/ProcessaSemclass.csv"
+        "file": "./app/infrastructure/files/ProcessaSemclass.csv"
       }
     ]
   },
@@ -40,7 +40,7 @@
       {
         "category": "",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?opcao=opt_04",
-        "file": "./infrastructure/files/Comercio.csv"
+        "file": "./app/infrastructure/files/Comercio.csv"
       }
     ]
   },
@@ -50,17 +50,17 @@
       {
         "category": "Vinhos de Mesa",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?subopcao=subopt_01&opcao=opt_05",
-        "file": "./infrastructure/files/ImpVinhos.csv"
+        "file": "./app/infrastructure/files/ImpVinhos.csv"
       },
       {
         "category": "Espumantes",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?subopcao=subopt_02&opcao=opt_05",
-        "file": "./infrastructure/files/ImpEspumantes.csv"
+        "file": "./app/infrastructure/files/ImpEspumantes.csv"
       },
       {
         "category": "Uvas Frescas",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?subopcao=subopt_03&opcao=opt_05",
-        "file": "./infrastructure/files/ImpFrescas.csv"
+        "file": "./app/infrastructure/files/ImpFrescas.csv"
       },
       {
         "category": "Uvas Passas",
@@ -70,7 +70,7 @@
       {
         "category": "Suco de Uva",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?subopcao=subopt_05&opcao=opt_05",
-        "file": "./infrastructure/files/ImpSuco.csv"
+        "file": "./app/infrastructure/files/ImpSuco.csv"
       }
     ]
   },
@@ -80,22 +80,22 @@
       {
         "category": "Vinhos de Mesa",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?subopcao=subopt_01&opcao=opt_06",
-        "file": "./infrastructure/files/ExpVinho.csv"
+        "file": "./app/infrastructure/files/ExpVinho.csv"
       },
       {
         "category": "Espumantes",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?subopcao=subopt_02&opcao=opt_06",
-        "file": "./infrastructure/files/ExpEspumantes.csv"
+        "file": "./app/infrastructure/files/ExpEspumantes.csv"
       },
       {
         "category": "Uvas Frescas",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?subopcao=subopt_03&opcao=opt_06",
-        "file": "./infrastructure/files/ExpUva.csv"
+        "file": "./app/infrastructure/files/ExpUva.csv"
       },
       {
         "category": "Suco de Uva",
         "url": "http://vitibrasil.cnpuv.embrapa.br/index.php?subopcao=subopt_04&opcao=opt_06",
-        "file": "./infrastructure/files/ExpSuco.csv"
+        "file": "./app/infrastructure/files/ExpSuco.csv"
       }
     ]
   }

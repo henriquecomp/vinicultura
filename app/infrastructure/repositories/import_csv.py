@@ -4,7 +4,7 @@ import pandas as pd
 
 class ImportCSV:
 
-    def get_import_by_year_csv(
+    def get_import_csv(
         self, file_path, category, year
     ) -> list[ImportResponse]:
         df = pd.read_csv(file_path, delimiter=";")

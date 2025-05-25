@@ -4,7 +4,7 @@ import pandas as pd
 
 class ProductionCSV:
 
-    def get_production_by_year_csv(
+    def get_production_csv(
         self, file_path, category, year
     ) -> list[ProductionResponse]:
         df = pd.read_csv(file_path, delimiter=";")

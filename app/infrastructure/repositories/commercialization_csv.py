@@ -4,7 +4,7 @@ import pandas as pd
 
 class CommercializationCSV:
 
-    def get_commercialization_by_year_csv(
+    def get_commercialization_csv(
         self, file_path, category, year
     ) -> list[CommercializationResponse]:
         df = pd.read_csv(file_path, delimiter=";")

@@ -4,18 +4,20 @@ from fastapi.security import OAuth2PasswordBearer
 from app.application.DTOs.import_response import ImportResponse
 from app.application.services.import_service import ImportService
 from app.api.common.check_access import check_access
+from app.domain.enums.import_enum import ImportEnum
 
 router = APIRouter()
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 
 @router.get("/import/")
-def get_import(token: Annotated[str, Depends(oauth2_scheme)], year: int = 2023) -> list[ImportResponse]:
+def get_import(token: Annotated[str, Depends(oauth2_scheme)], year: int = 2023, category: ImportEnum = None) -> list[ImportResponse]:
     """
         Recupera os dados da importação de produtos de uva
 
         Args:
             year (int): Ano que deseja ver os dados. Caso não informado, o valor padrão será 2023.        
+            category (ImportEnum): Categoria da uva, o valor padrão será em "" e trará todas as categorias.
 
         Returns:
             list: Uma lista seguindo a estrutura:
@@ -32,4 +34,4 @@ def get_import(token: Annotated[str, Depends(oauth2_scheme)], year: int = 2023) 
             HTTPException: Se o usuário ou senha forem inválidos.
     """    
     check_access(token)
-    return ImportService().get_import_by_year(year)
+    return ImportService().get_import(year, category)

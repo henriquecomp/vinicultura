@@ -3,7 +3,7 @@ from app.infrastructure.external_services.base_scrape import BaseScrape
 
 
 class CommercializationScrape:
-    def get_commercialization_by_year(self, url) -> list[CommercializationResponse]:
+    def get_commercialization(self, url) -> list[CommercializationResponse]:
         """
         Serviço que utiliza o BaseScrape (genérico) e especializa os 
         dados devolvendo-os como dados de comercialização.

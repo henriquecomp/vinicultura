@@ -33,4 +33,4 @@ def get_commercialization(
         HTTPException: Se o usuário ou senha forem inválidos.
     """
     check_access(token)
-    return CommercializationService().get_commercialization_by_year(year)
+    return CommercializationService().get_commercialization(year)

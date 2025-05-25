@@ -32,4 +32,4 @@ def get_production(token: Annotated[str, Depends(oauth2_scheme)], year: int = 20
     """     
     check_access(token)
     service = ProductionService()
-    return service.get_production_by_year(year)
+    return service.get_production(year)

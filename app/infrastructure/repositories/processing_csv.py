@@ -18,7 +18,7 @@ def retornar_processamento_csv(file_path, categoria, ano):
 
 class ProcessingCSV:
 
-    def get_processing_by_year_csv(
+    def get_processing_csv(
         self, file_path, category, year
     ) -> list[ProcessingResponse]:
         df = pd.read_csv(file_path, delimiter=";")

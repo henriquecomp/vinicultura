@@ -6,7 +6,7 @@ class ExportScrape:
     def __init__(self, category: str = None):
         self.category = category
 
-    def get_export_by_year(self, url) -> list[ExportResponse]:
+    def get_export(self, url) -> list[ExportResponse]:
         """
         Serviço que utiliza o serviço BaseScrape (genérico) e especializa os 
         dados devolvendo-os como dados de exportação.

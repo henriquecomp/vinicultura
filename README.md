@@ -159,13 +159,13 @@ Controller -> CheckAccess: check_access()
 alt Token Válido
     alt 
         CheckAccess --> Controller: check_access()
-        Controller -> Application: get_production_by_year(year)
+        Controller -> Application: get_production(year)
         Application -> Config: get_config("Production") 
         Config --> Application: list[ConfigResponse]
         loop para cada item na lista de configuração
             Application -> UrlHandler: url_handler(url, year)
             UrlHandler --> Application: str (url)
-            Application -> Scrape: get_production_by_year(url)
+            Application -> Scrape: get_production(url)
             Scrape -> BaseScrape: BaseScrape(url).handle()
             BaseScrape --> Scrape: list[BaseScrapeValueObject]
             Scrape --> Application: list[ProductionResponse]
@@ -202,13 +202,13 @@ Controller -> CheckAccess: check_access()
 alt Token Válido
     alt 
         CheckAccess --> Controller: check_access()
-        Controller -> Application: get_commercialization_by_year(year)
+        Controller -> Application: get_commercialization(year)
         Application -> Config: get_config("Commercialization") 
         Config --> Application: list[ConfigResponse]
         loop para cada item na lista de configuração
             Application -> UrlHandler: url_handler(url, year)
             UrlHandler --> Application: str (url)
-            Application -> Scrape: get_commercialization_by_year(url)
+            Application -> Scrape: get_commercialization(url)
             Scrape -> BaseScrape: BaseScrape(url).handle()
             BaseScrape --> Scrape: list[BaseScrapeValueObject]
             Scrape --> Application: list[CommercializationResponse]
@@ -244,13 +244,13 @@ Controller -> CheckAccess: check_access()
 alt Token Válido
     alt 
         CheckAccess --> Controller: check_access()
-        Controller -> Application: get_processing_by_year(year)
+        Controller -> Application: get_processing(year)
         Application -> Config: get_config("Processing") 
         Config --> Application: list[ConfigResponse]
         loop para cada item na lista de configuração
             Application -> UrlHandler: url_handler(url, year)
             UrlHandler --> Application: str (url)
-            Application -> Scrape: get_processing_by_year(url)
+            Application -> Scrape: get_processing(url)
             Scrape -> BaseScrape: BaseScrape(url).handle()
             BaseScrape --> Scrape: list[BaseScrapeValueObject]
             Scrape --> Application: list[ProcessingResponse]
@@ -286,13 +286,13 @@ Controller -> CheckAccess: check_access()
 alt Token Válido
     alt 
         CheckAccess --> Controller: check_access()
-        Controller -> Application: get_export_by_year(year)
+        Controller -> Application: get_export(year)
         Application -> Config: get_config("Export") 
         Config --> Application: list[ConfigResponse]
         loop para cada item na lista de configuração
             Application -> UrlHandler: url_handler(url, year)
             UrlHandler --> Application: str (url)
-            Application -> Scrape: get_export_by_year(url)
+            Application -> Scrape: get_export(url)
             Scrape -> BaseScrape: BaseScrape(url).handle()
             BaseScrape --> Scrape: list[BaseScrapeValueObject]
             Scrape --> Application: list[ExportResponse]
@@ -329,13 +329,13 @@ Controller -> CheckAccess: check_access()
 alt Token Válido
     alt 
         CheckAccess --> Controller: check_access()
-        Controller -> Application: get_import_by_year(year)
+        Controller -> Application: get_import(year)
         Application -> Config: get_config("Import") 
         Config --> Application: list[ConfigResponse]
         loop para cada item na lista de configuração
             Application -> UrlHandler: url_handler(url, year)
             UrlHandler --> Application: str (url)
-            Application -> Scrape: get_import_by_year(url)
+            Application -> Scrape: get_import(url)
             Scrape -> BaseScrape: BaseScrape(url).handle()
             BaseScrape --> Scrape: list[BaseScrapeValueObject]
             Scrape --> Application: list[ImportResponse]

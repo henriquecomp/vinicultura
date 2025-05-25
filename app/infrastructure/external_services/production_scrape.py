@@ -3,7 +3,7 @@ from app.infrastructure.external_services.base_scrape import BaseScrape
 
 
 class ProductionScrape:
-    def get_production_by_year(self, url) -> list[ProductionResponse]:
+    def get_production(self, url) -> list[ProductionResponse]:
         """
         Serviço que utiliza o serviço BaseScrape (genérico) e especializa os 
         dados devolvendo-os como dados de produção.

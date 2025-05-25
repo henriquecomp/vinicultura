@@ -4,7 +4,7 @@ import pandas as pd
 
 class ExportCSV:
 
-    def get_export_by_year_csv(
+    def get_export_csv(
         self, file_path, category, year
     ) -> list[ExportResponse]:
         df = pd.read_csv(file_path, delimiter=";")

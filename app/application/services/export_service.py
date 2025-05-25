@@ -1,3 +1,4 @@
+from app.domain.enums.export_enum import ExportEnum
 from app.infrastructure.external_services.export_scrape import (
     ExportScrape,
 )
@@ -8,7 +9,7 @@ from app.infrastructure.repositories.export_csv import ExportCSV
 
 class ExportService:
     
-    def get_export_by_year(self, year: int) -> list[ExportResponse]:
+    def get_export(self, year: int, category: ExportEnum) -> list[ExportResponse]:
 
         """
         Serviço que configura a raspagem de dados na aba de Exportação do sitema da Embrapa 
@@ -16,6 +17,7 @@ class ExportService:
 
         Args:
             year: int, # Ano que é passado por parametro pelo endpoint para filtrar os dados para a raspagem
+            category (ExportEnum): Categoria da uva, o valor padrão será em "" e trará todas as categorias.
 
         Returns:
             list: Uma lista dos dados de exportação raspados
@@ -32,15 +34,15 @@ class ExportService:
             Exception: Caso haja um lançamento de exception, irá acionar o arquivo para retornar os dados
                         como uma forma de responder a requisição caso o site esteja indisponível.
         """             
-        try:
 
-            division = 1 / 0        # retirar esta linha
-            data = []
-            config = Config().get_config("Export")
+        data = []
+        config = Config().get_category(Config().get_config("Export"), category)
+
+        try:
             for item in config:
                 url = UrlHandler().url_handler(item.url, year)            
                 export_scrape = ExportScrape(item.category)
-                result = export_scrape.get_export_by_year(url)
+                result = export_scrape.get_export(url)
                 for item in result:
                     data.append(
                         ExportResponse(
@@ -53,10 +55,9 @@ class ExportService:
 
             return data
         except Exception as e:
-            data = []
-            config = Config().get_config("Export")
+            data.clear()
             for item in config:                
-                results = ExportCSV().get_export_by_year_csv(item.file, item.category, year)
+                results = ExportCSV().get_export_csv(item.file, item.category, year)
                 for item in results:
                     data.append(
                         ExportResponse(

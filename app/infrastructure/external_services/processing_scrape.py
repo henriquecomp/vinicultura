@@ -3,7 +3,7 @@ from app.infrastructure.external_services.base_scrape import BaseScrape
 
 
 class ProcessingScrape:
-    def get_processing_by_year(self, url) -> list[ProcessingResponse]:
+    def get_processing(self, url) -> list[ProcessingResponse]:
         """
         Serviço que utiliza o serviço BaseScrape (genérico) e especializa os 
         dados devolvendo-os como dados de processamento.

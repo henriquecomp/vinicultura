@@ -6,7 +6,7 @@ class ImportScrape:
     def __init__(self, category: str = None):
         self.category = category
 
-    def get_import_by_year(self, url) -> list[ImportResponse]:
+    def get_import(self, url) -> list[ImportResponse]:
         """
         Serviço que utiliza o serviço BaseScrape (genérico) e especializa os 
         dados devolvendo-os como dados de importação.
