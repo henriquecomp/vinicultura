@@ -23,10 +23,11 @@ class BaseScrape:
 
     def _clean_numeric_data(self, text: str) -> float:
         try:
+        
             if not text or text.lower().strip() in ("-", " "):
                 return 0.0
 
-            return float(
+            saida = float(
                 text.lower()
                 .replace(".", "")
                 .replace(",", ".")
@@ -36,6 +37,9 @@ class BaseScrape:
                 .replace("-", "0")
                 .strip()
             )
+
+            return saida
+  
         except ValueError:
             raise
 
