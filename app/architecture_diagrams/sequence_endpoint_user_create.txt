@@ -1,0 +1,26 @@
+## Criação de usuário
+
+@startuml
+autonumber
+actor Usuario
+participant "UserController" as Controller
+participant "CheckAccess" as CheckAccess
+participant "UserService" as Application
+participant "UserRepository" as Repository
+
+'Requisição autenticada
+Usuario -> Controller: Authorization: Bearer token
+Controller -> CheckAccess: check_access()
+
+alt Token Válido
+    CheckAccess -> Controller: check_access()
+    Controller -> Application: add_user(db, username, email, password)
+    Application -> Repository: save(user)
+    Repository --> Application: User
+    Application --> Controller: UserResponse
+    Controller --> Usuario: 200 + UserResponse
+else Token Inválido
+    CheckAccess --> Controller: check_access(): Invalid token
+    Controller --> Usuario: 401 Unauthorized
+
+@enduml

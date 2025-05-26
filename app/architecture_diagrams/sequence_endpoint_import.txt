@@ -1,0 +1,41 @@
+## Import
+
+@startuml
+autonumber
+actor Usuario
+participant "ImportController" as Controller
+participant "CheckAccess" as CheckAccess
+participant "ImportService" as Application
+participant "ApplicationConfig" as Config
+participant "UrlHandler" as UrlHandler
+participant "ImportScrape" as Scrape
+participant "BaseScrape" as BaseScrape
+
+'Requisição autenticada
+Usuario -> Controller: header: Authorization: Bearer token, get_import(year) 
+Controller -> CheckAccess: check_access()
+
+alt Token Válido
+    alt 
+        CheckAccess --> Controller: check_access()
+        Controller -> Application: get_import(year)
+        Application -> Config: get_config("Import") 
+        Config --> Application: list[ConfigResponse]
+        loop para cada item na lista de configuração
+            Application -> UrlHandler: url_handler(url, year)
+            UrlHandler --> Application: str (url)
+            Application -> Scrape: get_import(url)
+            Scrape -> BaseScrape: BaseScrape(url).handle()
+            BaseScrape --> Scrape: list[BaseScrapeValueObject]
+            Scrape --> Application: list[ImportResponse]
+        end
+        Application --> Controller: list[ImportResponse]
+        Controller --> Usuario: 200 + list[ImportResponse]
+    else Exception
+        Application --> Controller: Exception
+        Controller --> Usuario: 500 + Internal Server Error { "detail": "message" }
+else Token Inválido
+    CheckAccess --> Controller: check_access(): Invalid token
+    Controller --> Usuario: 401 Unauthorized
+
+@enduml

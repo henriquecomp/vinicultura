@@ -1,0 +1,25 @@
+## Auth
+
+@startuml
+autonumber
+actor Usuario
+participant "AuthController" as Controller
+participant "UserService" as Application
+participant "UserRepository" as Repository
+
+'Requisição autenticada
+
+alt ValidUser
+    Usuario -> Controller: login(username, password)
+    Controller -> Application: auth_by_email(db, username, password)
+    Application -> Repository: get_by_email(email)
+    Repository --> Application: User
+    Application --> Application: _check_password(password, userPassword)
+    Application --> Application: create_access_token(email)
+    Application --> Controller: AuthResponse
+    Controller --> Usuario: 200 + { "access_token" + "token_type" }
+else InvalidUser
+    Application --> Controller: check_password(): None
+    Controller --> Usuario: 401 Unauthorized
+
+@enduml

@@ -1,0 +1,41 @@
+## Commercialization
+
+@startuml
+autonumber
+actor Usuario
+participant "CommercializationController" as Controller
+participant "CheckAccess" as CheckAccess
+participant "CommercializationService" as Application
+participant "ApplicationConfig" as Config
+participant "UrlHandler" as UrlHandler
+participant "CommercializationScrape" as Scrape
+participant "BaseScrape" as BaseScrape
+
+'Requisição autenticada
+Usuario -> Controller: header: Authorization: Bearer token, get_commercialization(year) 
+Controller -> CheckAccess: check_access()
+
+alt Token Válido
+    alt 
+        CheckAccess --> Controller: check_access()
+        Controller -> Application: get_commercialization(year)
+        Application -> Config: get_config("Commercialization") 
+        Config --> Application: list[ConfigResponse]
+        loop para cada item na lista de configuração
+            Application -> UrlHandler: url_handler(url, year)
+            UrlHandler --> Application: str (url)
+            Application -> Scrape: get_commercialization(url)
+            Scrape -> BaseScrape: BaseScrape(url).handle()
+            BaseScrape --> Scrape: list[BaseScrapeValueObject]
+            Scrape --> Application: list[CommercializationResponse]
+        end
+        Application --> Controller: list[CommercializationResponse]
+        Controller --> Usuario: 200 + list[CommercializationResponse]        
+    else Exception
+        Application --> Controller: Exception
+        Controller --> Usuario: 500 + Internal Server Error { "detail": "message" }
+else Token Inválido
+    CheckAccess --> Controller: check_access(): Invalid token
+    Controller --> Usuario: 401 Unauthorized
+
+@enduml

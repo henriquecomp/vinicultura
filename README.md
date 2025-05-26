@@ -1,45 +1,257 @@
-## Python Version
+# Vinicultura
+Este é um projeto desenvolvido em FastAPI, que inclui web scraping do site http://vitibrasil.cnpuv.embrapa.br/. Em caso de falha no web scraping ele irá ler um arquivo com os dados que são disponibilizados para download. Só é possível realizar o scrape/ler os arquivos usuários que estão autenticados através de JWT Token válido.
 
-Deve ser utilizada a versão 3.13.2
+## Funcionalidades
+- Autenticação através de JWT Token (/login)
+- Web scraping de dados de produção (/production)
+- Web scraping de dados de processamento (/processing)
+- Web scraping de dados de comercialização (/commercialization)
+- Web scraping de dados de importação (/import)
+- Web scraping de dados de exportação (/export)
+- Cadastro de usuário (/users)
+- Alteração de senha do usuário autenticado (/change-password)
 
-## Criar o ambiente python
+## Estrutura do Projeto
+vinicultura
+├── app
+│   ├── alembic
+│   │   ├── env.py
+│   │   ├── README
+│   │   ├── script.py.mako
+│   │   └── versions
+│   │       └── 4c4de80eabb5_create_user_table.py
+│   ├── alembic.ini
+│   ├── api
+│   │   ├── common
+│   │   │   └── check_access.py
+│   │   ├── controllers
+│   │   │   ├── auth_controller.py
+│   │   │   ├── commercialization_controller.py
+│   │   │   ├── export_controller.py
+│   │   │   ├── import_controller.py
+│   │   │   ├── processing_controller.py
+│   │   │   ├── production_controller.py
+│   │   │   └── user_controller.py
+│   │   └── models
+│   │       └── requests
+│   │           ├── user_change_password_request.py
+│   │           └── user_create_request.py
+│   ├── application
+│   │   ├── common
+│   │   │   ├── config.py
+│   │   │   └── url_handler.py
+│   │   ├── DTOs
+│   │   │   ├── auth_response.py
+│   │   │   ├── commercialization_response.py
+│   │   │   ├── config_response.py
+│   │   │   ├── export_response.py
+│   │   │   ├── import_response.py
+│   │   │   ├── processing_response.py
+│   │   │   ├── production_response.py
+│   │   │   └── user_response.py
+│   │   └── services
+│   │       ├── commercialization_service.py
+│   │       ├── export_service.py
+│   │       ├── import_service.py
+│   │       ├── processing_service.py
+│   │       ├── production_service.py
+│   │       ├── security_service.py
+│   │       └── user_service.py
+│   ├── architecture_diagrams
+│   │   ├── sequence_endpoint_commercialization.png
+│   │   ├── sequence_endpoint_commercialization.txt
+│   │   ├── sequence_endpoint_export.png
+│   │   ├── sequence_endpoint_export.txt
+│   │   ├── sequence_endpoint_import.png
+│   │   ├── sequence_endpoint_import.txt
+│   │   ├── sequence_endpoint_processing.png
+│   │   ├── sequence_endpoint_processing.txt
+│   │   ├── sequence_endpoint_production.png
+│   │   ├── sequence_endpoint_production.txt
+│   │   ├── sequence_endpoint_user_authentication.png
+│   │   ├── sequence_endpoint_user_authentication.txt
+│   │   ├── sequence_endpoint_user_change_password.png
+│   │   ├── sequence_endpoint_user_change_password.txt
+│   │   ├── sequence_endpoint_user_create.png
+│   │   └── sequence_endpoint_user_create.txt
+│   ├── config.json
+│   ├── domain
+│   │   ├── entities
+│   │   │   └── user.py
+│   │   ├── enums
+│   │   │   ├── export_enum.py
+│   │   │   ├── import_enum.py
+│   │   │   └── processing_enum.py
+│   │   ├── repositories
+│   │   │   └── user_repository.py
+│   │   └── value_objects
+│   │       └── base_scrape.py
+│   └── infrastructure
+│       ├── db
+│       │   ├── app.sqlite3
+│       │   └── database.py
+│       ├── external_services
+│       │   ├── base_scrape.py
+│       │   ├── commercialization_scrape.py
+│       │   ├── export_scrape.py
+│       │   ├── import_scrape.py
+│       │   ├── processing_scrape.py
+│       │   └── production_scrape.py
+│       ├── files
+│       │   ├── Comercio.csv
+│       │   ├── ExpEspumantes.csv
+│       │   ├── ExpSuco.csv
+│       │   ├── ExpUva.csv
+│       │   ├── ExpVinho.csv
+│       │   ├── ImpEspumantes.csv
+│       │   ├── ImpFrescas.csv
+│       │   ├── ImpPassas.csv
+│       │   ├── ImpSuco.csv
+│       │   ├── ImpVinhos.csv
+│       │   ├── ProcessaAmericanas.csv
+│       │   ├── ProcessaMesa.csv
+│       │   ├── ProcessaSemclass.csv
+│       │   ├── ProcessaViniferas.csv
+│       │   └── Producao.csv
+│       └── repositories
+│           ├── commercialization_csv.py
+│           ├── export_csv.py
+│           ├── import_csv.py
+│           ├── processing_csv.py
+│           ├── production_csv.py
+│           └── user_repository_sql.py
+├── docker-compose.yml
+├── Dockerfile
+├── main.py
+├── README.md
+├── requirements.txt
+└── tests
+    ├── __init__.py
+    ├── controllers
+    │   ├── __init__.py
+    │   └── test_production_service.py
+    ├── infrastructure
+    │   └── external_services
+    │       ├── test_base_scrape.py
+    │       └── test_production_scrape.py
+    └── services
+        └── test_production_service_scrape.py
 
+ - **`app/`** Esta é a pasta raiz da aplicação FastAPI. Ela contém toda a lógica e os componentes necessários para o funcionamento do sistema.
+-   **`app/API/`**: Responsável pela camada de Interface de Programação de Aplicações (API).
+    -   **`app/API/common/`**: Contém módulos utilitários comuns para a camada de API, como o `check_access.py`, que lida com a validação de tokens de acesso.
+    -   **`app/API/controllers/`**: Define os endpoints da API (rotas). Cada arquivo aqui (ex: `auth_controller.py`, `production_controller.py`) gerencia as requisições HTTP para um recurso específico, validando entradas, chamando os serviços apropriados da camada de aplicação e formatando as respostas.
+    -   **`app/API/models/`**: Contém os modelos de dados Pydantic usados para validar os corpos das requisições e, possivelmente, formatar respostas.
+        -   **`app/API/models/requests/`**: Especificamente, define os modelos para os dados esperados nas requisições (ex: `user_create_request.py`, `user_change_password_request.py`).
+-   **`app/alembic/`**: Configuração e scripts para o Alembic, uma ferramenta de migração de banco de dados para SQLAlchemy.
+    
+    -   **`app/alembic/versions/`**: Armazena os arquivos de script de migração gerados pelo Alembic, que descrevem as alterações no esquema do banco de dados ao longo do tempo (ex: `4c4de80eabb5_create_user_table.py` que cria a tabela de usuários).
+    -   `alembic.ini` e `env.py` são arquivos de configuração do Alembic.
+    
+-   **`app/application/`**: Representa a camada de lógica de aplicação (ou camada de serviço). Ela orquestra as interações entre a camada de API e a camada de domínio/infraestrutura.
+    
+    -   **`app/application/common/`**: Módulos utilitários para a camada de aplicação, como `config.py` para carregar configurações de URLs e arquivos CSV de fallback, e `url_handler.py` para manipular URLs usadas na raspagem de dados.
+   
+    -   **`app/application/DTOs/`**: Contém os Data Transfer Objects (DTOs). São classes simples usadas para transferir dados entre camadas, especialmente para formatar respostas dos serviços para os controllers (ex: `production_response.py`, `user_response.py`).
+    
+    -   **`app/application/services/`**: Contém a lógica de negócio principal da aplicação. Os serviços (ex: `production_service.py`, `user_service.py`) são responsáveis por executar as tarefas solicitadas pelos controllers, interagir com repositórios e outros serviços. Eles também implementam a lógica de fallback para ler arquivos CSV em caso de falha na raspagem de dados.
+    
+- **`architecture_diagrams`**: Contém os diagramas de sequencia  dos endpoints da aplicação. 	     
+	- Os arquivos .txt podem ser modificados no site https://editor.plantuml.com/  
+	- Os arquivos .png são gerados a partir dos arquivos .txt no site https://editor.plantuml.com/ e realizado o download da imagem para melhor compreensão.
+    
+-   **`app/domain/`**: Contém a lógica de domínio da aplicação, representando as entidades de negócio, regras e objetos de valor.
+    
+    -   **`app/domain/entities/`**: Define as entidades principais do domínio, como a classe `User` que mapeia para a tabela de usuários no banco de dados.
+    
+    -   **`app/domain/enums/`**: Define enumerações usadas no domínio para representar conjuntos fixos de valores (ex: `ExportEnum`, `ProcessingEnum`).
+    
+    -   **`app/domain/repositories/`**: Define as interfaces (contratos) para os repositórios de dados (ex: `UserRepository`). Estas interfaces abstraem a forma como os dados são persistidos ou recuperados.
+    
+    -   **`app/domain/value_objects/`**: Contém objetos de valor, que são pequenos objetos representando conceitos simples do domínio (ex: `BaseScrapeValueObject` para padronizar o retorno da raspagem de dados).
+    
+-   **`app/infrastructure/`**: Responsável pelos detalhes de implementação técnica, como acesso a banco de dados, serviços externos e arquivos.
+    
+    -   **`app/infrastructure/db/`**: Configuração e código relacionado ao banco de dados, como `database.py` que configura a engine SQLAlchemy e a sessão do banco de dados.
+    
+    -   **`app/infrastructure/external_services/`**: Módulos para interagir com serviços externos, principalmente para a raspagem de dados de sites da Embrapa (ex: `base_scrape.py`, `production_scrape.py`).
+    
+    -   **`app/infrastructure/files/`**: Armazena os arquivos CSV que servem como fonte de dados de fallback caso a raspagem de dados dos sites da Embrapa falhe (ex: `Comercio.csv`, `Producao.csv`).
+  
+    -   **`app/infrastructure/repositories/`**: Implementações concretas das interfaces de repositório definidas na camada de domínio. Por exemplo, `user_repository_sql.py` implementa o acesso aos dados do usuário usando SQLAlchemy, enquanto outros arquivos (ex: `production_csv.py`) implementam a leitura dos arquivos CSV de fallback.
+   
+-   `app/config.json`: Arquivo de configuração central que armazena URLs para raspagem de dados e os caminhos para os arquivos CSV de fallback correspondentes a cada tipo de dado (Produção, Processamento, etc.).
+    
+- **`tests/`** Esta pasta contém os testes automatizados para a aplicação, garantindo a qualidade e o correto funcionamento do código.
+
+-   **`tests/controllers/`**: Testes para os controllers da API, verificando se as rotas se comportam como esperado, se chamam os serviços corretamente e retornam as respostas adequadas (ex: `test_production_service.py`, embora o nome sugira teste de serviço, ele testa o _controller_ `production_controller`).
+
+-   **`tests/infrastructure/`**: Testes para os componentes da camada de infraestrutura.
+-
+    -   **`tests/infrastructure/external_services/`**: Testes específicos para os serviços de raspagem de dados (ex: `test_base_scrape.py`, `test_production_scrape.py`), verificando se eles extraem e processam os dados corretamente das fontes externas (mockadas durante o teste).
+    
+-   **`tests/services/`**: Testes para a lógica de negócio na camada de aplicação (serviços), verificando se as regras de negócio são aplicadas corretamente e se a interação com outras camadas (como repositórios e scrapers, geralmente mockados) funciona como esperado (ex: `test_production_service_scrape.py`).
+
+-   `README.md`: Fornece informações sobre o projeto, como configuração do ambiente, instalação de dependências, como rodar a aplicação e os próximos passos do desenvolvimento.
+
+-   `docker-compose.yml`: Define os serviços, redes e volumes para rodar a aplicação em containers Docker, facilitando o deploy e a configuração do ambiente.
+
+-   `main.py`: Ponto de entrada da aplicação FastAPI. Ele inicializa a aplicação, inclui os routers dos controllers e pode configurar middlewares (como o de logging de requisições implementado).
+-
+-   `requirements.txt`: Lista todas as dependências Python do projeto com suas versões específicas, permitindo a recriação do ambiente de forma consistente.
+
+## Pré Requisitos
+
+- Deve ser utilizada a versão 3.13.2
+- Deve ter o Docker Desktop instalado caso queira executar via Docker
+
+## Executar o projeto
+
+**1. Clone o repositório**
+`git clone https://github.com/henriquecomp/vinicultura.git` 
+`cd vinicultura`
+
+**2. Crie um ambiente virtual**
 `python -m venv .venv`
-`.venv\Scripts\activate`
+`source .venv/bin/activate (macOS e Linux)`
+`.venv\Scripts\activate (Windows)`
 
-## Instalar dependencias
-
-Deve estar dentro do diretorio /
+**3. Instale as dependências**
 `pip install -r requirements.txt`
 
-## Congelar dependências
-
-Deve estar dentro do diretorio /
+Caso instale/adicione uma nova dependência no projeto, atualize o arquivo requirements.txt
 `pip freeze > requirements.txt`
 
-## Rodar a APP
-
-Deve estar dentro do diretorio /
-`uvicorn main:app --reload --log-level debug`
-
-## Alembic
-
+**4. Execute o aplicativo**
+`uvicorn main:app --reload`
+  
+**5. Criando uma migration**
 Deve estar dentro do diretorio /path/to/app
 `alembic revision --autogenerate -m "create user table"`
 `alembic upgrade head`
 
-## Próximos passos
+## Executar projeto com Docker
+```
+docker build -t vinicultura .
+docker run -p 8000:8000 vinicultura
+```
 
+## Documentação da API
+A documentação da API é gerada automaticamente com Swagger e está disponível em `http://127.0.0.1:8000/docs/`  
+
+## Backlog
 - Tirar as urls e colocar em um arquivo de configuração (Henrique) - OK
 - Ler os arquivos csvs e transformar em resposta em caso de falha da url (Eliel)
-    - Services
-    - Controllers => Generica
+- Services
+- Controllers => Generica
+```bash
 try 
 raise Base de dados (Usuario)
 raise Comunicacao
 raise File
 raise Pandas
 raise Exception
+```
 - Deixar a aplicação resiliente com try raise (Eliel)
 - Cadastro de usuário (Henrique) - OK
 - JWT Token e fechar as rotas (Henrique) - OK
@@ -51,302 +263,4 @@ raise Exception
 - Criar o diagrama de arquitetura (Henrique e Eliel) - OK -> Deve adicionar a logica do Eliel
 - Video de apresentacao (Henrique e Eliel)
 - Documentar no README conforme solicitação da FIAP (Henrique e Eliel)
-- No arquivo security_service tem a chave da api. Devemos modificar para o .env
-
-
-# Diagrama de Sequencia
-Use o editor https://editor.plantuml.com/ para visual o diagrama.
-
-## Criação de usuário
-@startuml
-autonumber
-actor Usuario
-participant "UserController" as Controller
-participant "CheckAccess" as CheckAccess
-participant "UserService" as Application
-participant "UserRepository" as Repository
-
-'Requisição autenticada
-Usuario -> Controller: Authorization: Bearer token
-Controller -> CheckAccess: check_access()
-
-alt Token Válido
-    CheckAccess -> Controller: check_access()
-    Controller -> Application: add_user(db, username, email, password)
-    Application -> Repository: save(user)
-    Repository --> Application: User
-    Application --> Controller: UserResponse
-    Controller --> Usuario: 200 + UserResponse
-else Token Inválido
-    CheckAccess --> Controller: check_access(): Invalid token
-    Controller --> Usuario: 401 Unauthorized
-
-@enduml
-
-## Change Password
-@startuml
-autonumber
-actor Usuario
-participant "UserController" as Controller
-participant "CheckAccess" as CheckAccess
-participant "UserService" as Application
-participant "UserRepository" as Repository
-
-'Requisição autenticada
-Usuario -> Controller: Authorization: Bearer token
-Controller -> CheckAccess: check_access()
-
-alt Token Válido
-    CheckAccess -> Controller: check_access()
-    alt Success
-        Controller -> Application: change_password(db, current_user_email, newpassword)
-        Application -> Repository: update(user)
-        Repository --> Application: User
-        Application --> Controller: UserResponse
-        Controller --> Usuario: 200 + UserResponse
-    else Exception
-        Application --> Controller: raise_exception
-        Controller --> Usuario: 500 Internal Server Error
-else TokenInvalid
-    CheckAccess --> Controller: check_access(): Invalid token
-    Controller --> Usuario: 401 Unauthorized
-
-@enduml
-
-
-## Auth
-
-@startuml
-autonumber
-actor Usuario
-participant "AuthController" as Controller
-participant "UserService" as Application
-participant "UserRepository" as Repository
-
-'Requisição autenticada
-
-alt ValidUser
-    Usuario -> Controller: login(username, password)
-    Controller -> Application: auth_by_email(db, username, password)
-    Application -> Repository: get_by_email(email)
-    Repository --> Application: User
-    Application --> Application: _check_password(password, userPassword)
-    Application --> Application: create_access_token(email)
-    Application --> Controller: AuthResponse
-    Controller --> Usuario: 200 + { "access_token" + "token_type" }
-else InvalidUser
-    Application --> Controller: check_password(): None
-    Controller --> Usuario: 401 Unauthorized
-
-@enduml
-
-## Production
-@startuml
-autonumber
-actor Usuario
-participant "ProductionController" as Controller
-participant "CheckAccess" as CheckAccess
-participant "ProductionService" as Application
-participant "ApplicationConfig" as Config
-participant "UrlHandler" as UrlHandler
-participant "ProductionScrape" as Scrape
-participant "BaseScrape" as BaseScrape
-
-'Requisição autenticada
-Usuario -> Controller: header: Authorization: Bearer token, get_production(year) 
-Controller -> CheckAccess: check_access()
-
-alt Token Válido
-    alt 
-        CheckAccess --> Controller: check_access()
-        Controller -> Application: get_production(year)
-        Application -> Config: get_config("Production") 
-        Config --> Application: list[ConfigResponse]
-        loop para cada item na lista de configuração
-            Application -> UrlHandler: url_handler(url, year)
-            UrlHandler --> Application: str (url)
-            Application -> Scrape: get_production(url)
-            Scrape -> BaseScrape: BaseScrape(url).handle()
-            BaseScrape --> Scrape: list[BaseScrapeValueObject]
-            Scrape --> Application: list[ProductionResponse]
-        end
-        Application --> Controller: list[ProductionResponse]
-        Controller --> Usuario: 200 + list[ProductionResponse]
-    else Exception
-        Application --> Controller: Exception
-        Controller --> Usuario: 500 + Internal Server Error { "detail": "message" }
-else Token Inválido
-    CheckAccess --> Controller: check_access(): Invalid token
-    Controller --> Usuario: 401 Unauthorized
-
-@enduml
-
-
-## Commercialization
-
-@startuml
-autonumber
-actor Usuario
-participant "CommercializationController" as Controller
-participant "CheckAccess" as CheckAccess
-participant "CommercializationService" as Application
-participant "ApplicationConfig" as Config
-participant "UrlHandler" as UrlHandler
-participant "CommercializationScrape" as Scrape
-participant "BaseScrape" as BaseScrape
-
-'Requisição autenticada
-Usuario -> Controller: header: Authorization: Bearer token, get_commercialization(year) 
-Controller -> CheckAccess: check_access()
-
-alt Token Válido
-    alt 
-        CheckAccess --> Controller: check_access()
-        Controller -> Application: get_commercialization(year)
-        Application -> Config: get_config("Commercialization") 
-        Config --> Application: list[ConfigResponse]
-        loop para cada item na lista de configuração
-            Application -> UrlHandler: url_handler(url, year)
-            UrlHandler --> Application: str (url)
-            Application -> Scrape: get_commercialization(url)
-            Scrape -> BaseScrape: BaseScrape(url).handle()
-            BaseScrape --> Scrape: list[BaseScrapeValueObject]
-            Scrape --> Application: list[CommercializationResponse]
-        end
-        Application --> Controller: list[CommercializationResponse]
-        Controller --> Usuario: 200 + list[CommercializationResponse]        
-    else Exception
-        Application --> Controller: Exception
-        Controller --> Usuario: 500 + Internal Server Error { "detail": "message" }
-else Token Inválido
-    CheckAccess --> Controller: check_access(): Invalid token
-    Controller --> Usuario: 401 Unauthorized
-
-@enduml
-
-## Processing
-
-@startuml
-autonumber
-actor Usuario
-participant "ProcessingController" as Controller
-participant "CheckAccess" as CheckAccess
-participant "ProcessingService" as Application
-participant "ApplicationConfig" as Config
-participant "UrlHandler" as UrlHandler
-participant "ProcessingScrape" as Scrape
-participant "BaseScrape" as BaseScrape
-
-'Requisição autenticada
-Usuario -> Controller: header: Authorization: Bearer token, get_processing(year) 
-Controller -> CheckAccess: check_access()
-
-alt Token Válido
-    alt 
-        CheckAccess --> Controller: check_access()
-        Controller -> Application: get_processing(year)
-        Application -> Config: get_config("Processing") 
-        Config --> Application: list[ConfigResponse]
-        loop para cada item na lista de configuração
-            Application -> UrlHandler: url_handler(url, year)
-            UrlHandler --> Application: str (url)
-            Application -> Scrape: get_processing(url)
-            Scrape -> BaseScrape: BaseScrape(url).handle()
-            BaseScrape --> Scrape: list[BaseScrapeValueObject]
-            Scrape --> Application: list[ProcessingResponse]
-        end
-        Application --> Controller: list[ProcessingResponse]
-        Controller --> Usuario: 200 + list[ProcessingResponse]
-    else Exception
-        Application --> Controller: Exception
-        Controller --> Usuario: 500 + Internal Server Error { "detail": "message" }
-else Token Inválido
-    CheckAccess --> Controller: check_access(): Invalid token
-    Controller --> Usuario: 401 Unauthorized
-
-@enduml
-
-## Export
-
-@startuml
-autonumber
-actor Usuario
-participant "ExportController" as Controller
-participant "CheckAccess" as CheckAccess
-participant "ExportService" as Application
-participant "ApplicationConfig" as Config
-participant "UrlHandler" as UrlHandler
-participant "ExportScrape" as Scrape
-participant "BaseScrape" as BaseScrape
-
-'Requisição autenticada
-Usuario -> Controller: header: Authorization: Bearer token, get_export(year) 
-Controller -> CheckAccess: check_access()
-
-alt Token Válido
-    alt 
-        CheckAccess --> Controller: check_access()
-        Controller -> Application: get_export(year)
-        Application -> Config: get_config("Export") 
-        Config --> Application: list[ConfigResponse]
-        loop para cada item na lista de configuração
-            Application -> UrlHandler: url_handler(url, year)
-            UrlHandler --> Application: str (url)
-            Application -> Scrape: get_export(url)
-            Scrape -> BaseScrape: BaseScrape(url).handle()
-            BaseScrape --> Scrape: list[BaseScrapeValueObject]
-            Scrape --> Application: list[ExportResponse]
-        end
-        Application --> Controller: list[ExportResponse]
-        Controller --> Usuario: 200 + list[ExportResponse]
-    else Exception
-        Application --> Controller: Exception
-        Controller --> Usuario: 500 + Internal Server Error { "detail": "message" }
-else Token Inválido
-    CheckAccess --> Controller: check_access(): Invalid token
-    Controller --> Usuario: 401 Unauthorized
-
-@enduml
-
-
-## Import
-
-@startuml
-autonumber
-actor Usuario
-participant "ImportController" as Controller
-participant "CheckAccess" as CheckAccess
-participant "ImportService" as Application
-participant "ApplicationConfig" as Config
-participant "UrlHandler" as UrlHandler
-participant "ImportScrape" as Scrape
-participant "BaseScrape" as BaseScrape
-
-'Requisição autenticada
-Usuario -> Controller: header: Authorization: Bearer token, get_import(year) 
-Controller -> CheckAccess: check_access()
-
-alt Token Válido
-    alt 
-        CheckAccess --> Controller: check_access()
-        Controller -> Application: get_import(year)
-        Application -> Config: get_config("Import") 
-        Config --> Application: list[ConfigResponse]
-        loop para cada item na lista de configuração
-            Application -> UrlHandler: url_handler(url, year)
-            UrlHandler --> Application: str (url)
-            Application -> Scrape: get_import(url)
-            Scrape -> BaseScrape: BaseScrape(url).handle()
-            BaseScrape --> Scrape: list[BaseScrapeValueObject]
-            Scrape --> Application: list[ImportResponse]
-        end
-        Application --> Controller: list[ImportResponse]
-        Controller --> Usuario: 200 + list[ImportResponse]
-    else Exception
-        Application --> Controller: Exception
-        Controller --> Usuario: 500 + Internal Server Error { "detail": "message" }
-else Token Inválido
-    CheckAccess --> Controller: check_access(): Invalid token
-    Controller --> Usuario: 401 Unauthorized
-
-@enduml
+- No arquivo security_service tem a chave da api. Devemos modificar para o .env  
