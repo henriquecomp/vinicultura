@@ -2,10 +2,10 @@
 FROM python:latest
 
 # Define o diretório de trabalho dentro do container
-WORKDIR /app
+WORKDIR /
 
 # Copia os arquivos do projeto para o container
-COPY app/ .
+COPY . .
 
 # Instala dependências
 RUN pip install --no-cache-dir -r requirements.txt
