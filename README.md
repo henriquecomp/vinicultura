@@ -12,6 +12,7 @@ Este é um projeto desenvolvido em FastAPI, que inclui web scraping do site http
 - Alteração de senha do usuário autenticado (/change-password)
 
 ## Estrutura do Projeto
+```bash
 vinicultura
 ├── app
 │   ├── alembic
@@ -136,6 +137,7 @@ vinicultura
     │       └── test_production_scrape.py
     └── services
         └── test_production_service_scrape.py
+```
 
  - **`app/`** Esta é a pasta raiz da aplicação FastAPI. Ela contém toda a lógica e os componentes necessários para o funcionamento do sistema.
 -   **`app/API/`**: Responsável pela camada de Interface de Programação de Aplicações (API).
