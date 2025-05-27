@@ -1,5 +1,3 @@
-## Processing
-
 @startuml
 autonumber
 actor Usuario
@@ -11,15 +9,16 @@ participant "UrlHandler" as UrlHandler
 participant "ProcessingScrape" as Scrape
 participant "BaseScrape" as BaseScrape
 
-'Requisição autenticada
-Usuario -> Controller: header: Authorization: Bearer token, get_processing(year) 
+Usuario -> Controller: header: Authorization: Bearer token, get_processing(year, category) 
 Controller -> CheckAccess: check_access()
 
 alt Token Válido
     alt 
         CheckAccess --> Controller: check_access()
-        Controller -> Application: get_processing(year)
+        Controller -> Application: get_processing(year. category)
         Application -> Config: get_config("Processing") 
+        Config --> Application: list[ConfigResponse]
+        Application -> Config: get_category(category)
         Config --> Application: list[ConfigResponse]
         loop para cada item na lista de configuração
             Application -> UrlHandler: url_handler(url, year)
