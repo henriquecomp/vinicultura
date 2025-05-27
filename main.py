@@ -94,9 +94,10 @@ async def log_requests(request: Request, call_next):
 
 
 app.include_router(auth_controller)
+app.include_router(user_controller)
 app.include_router(production_controller)
 app.include_router(processing_controller)
 app.include_router(commercialization_controller)
 app.include_router(import_controller)
 app.include_router(export_controller)
-app.include_router(user_controller)
+
