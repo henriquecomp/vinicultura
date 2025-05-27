@@ -259,10 +259,14 @@ raise Exception
 - JWT Token e fechar as rotas (Henrique) - OK
 - Alterar senha do usuário desde que ele esteja logado. - OK
 - Logs (Henrique) - OK
-- Testes unitários (Henrique e Eliel)
-- Deploy na nuvem (Henrique e Eliel)
-- Documentar os métodos com DocString (Henrique e Eliel)
-- Criar o diagrama de arquitetura (Henrique e Eliel) - OK -> Deve adicionar a logica do Eliel
+- Testes unitários (Henrique) - OK
+    - Fazer mais dos scrapes (Henrique)
+- Deploy na nuvem (Henrique) - OK
+- Documentar os métodos com DocString (Henrique) - OK
+- Documentar os métodos com DocString da parte de CSV (Eliel)
+- Criar o diagrama de arquitetura 
+    Henrique -> Deve adicionar o parametro category dos controllers processing, import e export - OK
+    Eliel -> Deve adicionar a logica do CSV
 - Video de apresentacao (Henrique e Eliel)
-- Documentar no README conforme solicitação da FIAP (Henrique e Eliel)
-- No arquivo security_service tem a chave da api. Devemos modificar para o .env  
+- Documentar no README conforme solicitação da FIAP (Henrique) - OK
+- No arquivo security_service tem a chave da api. Devemos modificar para o .env  (Henrique)
