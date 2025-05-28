@@ -8,6 +8,7 @@ participant "ApplicationConfig" as Config
 participant "UrlHandler" as UrlHandler
 participant "ProcessingScrape" as Scrape
 participant "BaseScrape" as BaseScrape
+participant "ProcessingCSV" as CSV
 
 Usuario -> Controller: header: Authorization: Bearer token, get_processing(year, category) 
 Controller -> CheckAccess: check_access()
@@ -21,12 +22,29 @@ alt Token Válido
         Application -> Config: get_category(category)
         Config --> Application: list[ConfigResponse]
         loop para cada item na lista de configuração
-            Application -> UrlHandler: url_handler(url, year)
-            UrlHandler --> Application: str (url)
-            Application -> Scrape: get_processing(url)
-            Scrape -> BaseScrape: BaseScrape(url).handle()
-            BaseScrape --> Scrape: list[BaseScrapeValueObject]
-            Scrape --> Application: list[ProcessingResponse]
+            alt
+                Application -> UrlHandler: url_handler(url, year)
+                UrlHandler --> Application: str (url)
+                Application -> Scrape: get_processing(url)
+                Scrape -> BaseScrape: BaseScrape(url).handle()
+                BaseScrape --> Scrape: list[BaseScrapeValueObject]
+                Scrape --> Application: list[ProcessingResponse]
+            else ConnectionError
+                loop para cada item na lista de configuração
+                    alt
+                        Application -> CSV : get_processing_csv(file, category, year)
+                        CSV --> Application : list[ProcessingResponse]
+                    else FileNotFoundError
+                        Application --> Controller : Exception
+                    else PermissionError
+                        Application --> Controller : Exception
+                    else IOError
+                        Application --> Controller : Exception
+                    else Exception
+                        Application --> Controller : Exception
+                    end
+                end
+            end
         end
         Application --> Controller: list[ProcessingResponse]
         Controller --> Usuario: 200 + list[ProcessingResponse]

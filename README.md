@@ -224,10 +224,17 @@ vinicultura
 Caso instale/adicione uma nova dependência no projeto, atualize o arquivo requirements.txt
 `pip freeze > requirements.txt`
 
-**4. Execute o aplicativo**
+**4. Crie o arquivo .env na raiz do projeto**
+```bash
+SECRET_KEY="sua-chave-secreta-aqui"
+ALGORITHM="HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+```
+
+**5. Execute o aplicativo**
 `uvicorn main:app --reload`
   
-**5. Criando uma migration**
+**6. Criando uma migration**
 Deve estar dentro do diretorio /path/to/app
 `alembic revision --autogenerate -m "create user table"`
 `alembic upgrade head`
@@ -254,7 +261,7 @@ raise File
 raise Pandas
 raise Exception
 ```
-- Deixar a aplicação resiliente com try raise (Eliel)
+- Deixar a aplicação resiliente com try raise (Eliel) - OK
 - Cadastro de usuário (Henrique) - OK
 - JWT Token e fechar as rotas (Henrique) - OK
 - Alterar senha do usuário desde que ele esteja logado. - OK
@@ -263,10 +270,10 @@ raise Exception
     - Fazer mais dos scrapes (Henrique)
 - Deploy na nuvem (Henrique) - OK
 - Documentar os métodos com DocString (Henrique) - OK
-- Documentar os métodos com DocString da parte de CSV (Eliel)
 - Criar o diagrama de arquitetura 
     Henrique -> Deve adicionar o parametro category dos controllers processing, import e export - OK
-    Eliel -> Deve adicionar a logica do CSV
+    Eliel -> Deve adicionar a logica do CSV -  OK
 - Video de apresentacao (Henrique e Eliel)
 - Documentar no README conforme solicitação da FIAP (Henrique) - OK
+- Documentar os métodos com DocString da parte de CSV (Eliel)
 - No arquivo security_service tem a chave da api. Devemos modificar para o .env  (Henrique)
