@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from app.application.DTOs.processing_response import ProcessingResponse
 from app.application.services.processing_service import ProcessingService
@@ -32,6 +32,9 @@ def get_processing(token: Annotated[str, Depends(oauth2_scheme)], year: int = 20
         Raises:
             HTTPException: Se o usuário ou senha forem inválidos.
     """    
-    check_access(token)
-    processing_service = ProcessingService()    
-    return processing_service.get_processing(year, category)
+    try: 
+        check_access(token)
+        processing_service = ProcessingService()    
+        return processing_service.get_processing(year, category)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e)) from e

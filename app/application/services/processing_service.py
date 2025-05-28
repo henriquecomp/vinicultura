@@ -1,3 +1,5 @@
+from fastapi import HTTPException
+from app.application.DTOs.config_response import ConfigResponse
 from app.domain.enums.processing_enum import ProcessingEnum
 from app.infrastructure.external_services.processing_scrape import ProcessingScrape
 from app.application.DTOs.processing_response import ProcessingResponse
@@ -34,11 +36,12 @@ class ProcessingService:
                         como uma forma de responder a requisição caso o site esteja indisponível.
         """
 
-        data = []        
+        data = []
         config = Config().get_category(Config().get_config("Processing"), category)
-        
+        actualConfig: ConfigResponse = None
         try:
             for item in config:
+                actualConfig = item                
                 url = UrlHandler().url_handler(item.url, year)
                 processing_scrape = ProcessingScrape()
                 results = processing_scrape.get_processing(url)
@@ -51,20 +54,30 @@ class ProcessingService:
                         )
                     )
             return data
-
-        except Exception as e:
-            data.clear()
-            for item in config:
-                results = ProcessingCSV().get_processing_csv(
-                    item.file, item.category, year
-                )
-                for item in results:
-                    data.append(
-                        ProcessingResponse(
-                            category=item.category,
-                            name=item.name,
-                            quantity=item.quantity,
-                        )
+        except ConnectionError as e:
+            try:
+                data.clear()
+                for item in config:
+                    actualConfig = item
+                    results = ProcessingCSV().get_processing_csv(
+                        item.file, item.category, year
                     )
-
-            return data
+                    for item in results:
+                        data.append(
+                            ProcessingResponse(
+                                category=item.category,
+                                name=item.name,
+                                quantity=item.quantity,
+                            )
+                        )
+                return data
+            except FileNotFoundError as e:
+                raise Exception(f"ERRO: Arquivo {actualConfig.file} não encontrado.")
+            except PermissionError:
+                raise Exception(f"ERRO: Sem permissão para ler o arquivo {actualConfig.file}.")
+            except IOError as e:
+                raise Exception(f"ERRO de E/S ao tentar ler o arquivo '{actualConfig.file}': {e}")
+            except Exception as e:
+                raise
+        except Exception as e:
+            raise
