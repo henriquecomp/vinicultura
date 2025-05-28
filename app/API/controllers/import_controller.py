@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from app.application.DTOs.import_response import ImportResponse
 from app.application.services.import_service import ImportService
@@ -33,5 +33,9 @@ def get_import(token: Annotated[str, Depends(oauth2_scheme)], year: int = 2023, 
         Raises:
             HTTPException: Se o usuário ou senha forem inválidos.
     """    
-    check_access(token)
-    return ImportService().get_import(year, category)
+    try: 
+        check_access(token)
+        importService = ImportService()
+        return importService.get_import(year, category)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e)) from e

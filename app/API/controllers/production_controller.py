@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from app.application.services.production_service import ProductionService
 from app.api.common.check_access import check_access
@@ -30,6 +30,9 @@ def get_production(token: Annotated[str, Depends(oauth2_scheme)], year: int = 20
         Raises:
             HTTPException: Se o usuário ou senha forem inválidos.
     """     
-    check_access(token)
-    service = ProductionService()
-    return service.get_production(year)
+    try: 
+        check_access(token)
+        service = ProductionService()
+        return service.get_production(year)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e)) from e

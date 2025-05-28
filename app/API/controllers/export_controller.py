@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from app.application.DTOs.export_response import ExportResponse
 from app.application.services.export_service import ExportService
@@ -38,5 +38,9 @@ def get_export(
     Raises:
         HTTPException: Se o usuário ou senha forem inválidos.
     """
-    check_access(token)
-    return ExportService().get_export(year, category)
+    try: 
+        check_access(token)
+        exportService = ExportService()
+        return exportService.get_export(year, category)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e)) from e

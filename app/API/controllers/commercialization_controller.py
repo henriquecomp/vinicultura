@@ -1,5 +1,5 @@
 from typing import Annotated
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from app.application.DTOs.commercialization_response import CommercializationResponse
 from app.application.services.commercialization_service import CommercializationService
@@ -32,5 +32,9 @@ def get_commercialization(
     Raises:
         HTTPException: Se o usuário ou senha forem inválidos.
     """
-    check_access(token)
-    return CommercializationService().get_commercialization(year)
+    try:
+        check_access(token)
+        commercializationService = CommercializationService()
+        return commercializationService.get_commercialization(year)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e)) from e

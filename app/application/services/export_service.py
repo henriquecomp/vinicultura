@@ -1,7 +1,7 @@
+from fastapi import HTTPException
+from app.application.DTOs.config_response import ConfigResponse
 from app.domain.enums.export_enum import ExportEnum
-from app.infrastructure.external_services.export_scrape import (
-    ExportScrape,
-)
+from app.infrastructure.external_services.export_scrape import ExportScrape
 from app.application.DTOs.export_response import ExportResponse
 from app.application.common.config import Config
 from app.application.common.url_handler import UrlHandler
@@ -37,9 +37,10 @@ class ExportService:
 
         data = []
         config = Config().get_category(Config().get_config("Export"), category)
-
+        actualConfig: ConfigResponse = None
         try:
             for item in config:
+                actualConfig = item                
                 url = UrlHandler().url_handler(item.url, year)            
                 export_scrape = ExportScrape(item.category)
                 result = export_scrape.get_export(url)
@@ -54,18 +55,30 @@ class ExportService:
                     )
 
             return data
-        except Exception as e:
-            data.clear()
-            for item in config:                
-                results = ExportCSV().get_export_csv(item.file, item.category, year)
-                for item in results:
-                    data.append(
-                        ExportResponse(
-                            category=item.category,
-                            country=item.country,
-                            quantity=item.quantity,
-                            value=item.value
+        except ConnectionError as e:
+            try:
+                data.clear()
+                for item in config:                
+                    actualConfig = item
+                    results = ExportCSV().get_export_csv(item.file, item.category, year)
+                    for item in results:
+                        data.append(
+                            ExportResponse(
+                                category=item.category,
+                                country=item.country,
+                                quantity=item.quantity,
+                                value=item.value
+                            )
                         )
-                    )
 
-            return data
+                return data
+            except FileNotFoundError as e:
+                raise Exception(f"ERRO: Arquivo {actualConfig.file} não encontrado.")
+            except PermissionError:
+                raise Exception(f"ERRO: Sem permissão para ler o arquivo {actualConfig.file}.")
+            except IOError as e:
+                raise Exception(f"ERRO de E/S ao tentar ler o arquivo '{actualConfig.file}': {e}")
+            except Exception as e:
+                raise
+        except Exception as e:
+            raise

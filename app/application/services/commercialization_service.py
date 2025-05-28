@@ -1,6 +1,6 @@
-from app.infrastructure.external_services.commercialization_scrape import (
-    CommercializationScrape,
-)
+from fastapi import HTTPException
+from app.application.DTOs.config_response import ConfigResponse
+from app.infrastructure.external_services.commercialization_scrape import CommercializationScrape
 from app.application.DTOs.commercialization_response import CommercializationResponse
 from app.application.common.config import Config
 from app.application.common.url_handler import UrlHandler
@@ -34,9 +34,10 @@ class CommercializationService:
 
         data = []
         config = Config().get_config("Commercialization")
-        
+        actualConfig: ConfigResponse = None
         try:
             for item in config:
+                actualConfig = item                
                 url = UrlHandler().url_handler(item.url, year)
                 commercialization_scrape = CommercializationScrape()
                 results = commercialization_scrape.get_commercialization(url)
@@ -49,19 +50,30 @@ class CommercializationService:
                         )
                     )
             return data
-        except Exception as e:
-            data.clear()
-            for item in config:
-                results = CommercializationCSV().get_commercialization_csv(
-                    item.file, item.category, year
-                )
-                for item in results:
-                    data.append(
-                        CommercializationResponse(
-                            category=item.category,
-                            name=item.name,
-                            quantity=item.quantity,
-                        )
+        except ConnectionError as e:
+            try:
+                data.clear()
+                for item in config:
+                    results = CommercializationCSV().get_commercialization_csv(
+                        item.file, item.category, year
                     )
+                    for item in results:
+                        data.append(
+                            CommercializationResponse(
+                                category=item.category,
+                                name=item.name,
+                                quantity=item.quantity,
+                            )
+                        )
 
-            return data
+                return data
+            except FileNotFoundError as e:
+                raise Exception(f"ERRO: Arquivo {actualConfig.file} não encontrado.")
+            except PermissionError:
+                raise Exception(f"ERRO: Sem permissão para ler o arquivo {actualConfig.file}.")
+            except IOError as e:
+                raise Exception(f"ERRO de E/S ao tentar ler o arquivo '{actualConfig.file}': {e}")
+            except Exception as e:
+                raise
+        except Exception as e:
+            raise

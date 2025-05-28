@@ -1,3 +1,5 @@
+from fastapi import HTTPException
+from app.application.DTOs.config_response import ConfigResponse
 from app.infrastructure.external_services.production_scrape import ProductionScrape
 from app.application.DTOs.production_response import ProductionResponse
 from app.application.common.config import Config
@@ -32,9 +34,10 @@ class ProductionService:
 
         data = []
         config = Config().get_config("Production")
-
+        actualConfig: ConfigResponse = None
         try:
             for item in config:
+                actualConfig = item                
                 url = UrlHandler().url_handler(item.url, year)
                 production_scrape = ProductionScrape()
                 results = production_scrape.get_production(url)
@@ -47,19 +50,31 @@ class ProductionService:
                         )
                     )
             return data
-        except Exception as e:
-            data.clear()
-            for item in config:
-                results = ProductionCSV().get_production_csv(
-                    item.file, item.category, year
-                )
-                for item in results:
-                    data.append(
-                        ProductionResponse(
-                            category=item.category,
-                            name=item.name,
-                            quantity=item.quantity,
-                        )
+        except ConnectionError as e:
+            try:
+                data.clear()
+                for item in config:
+                    actualConfig = item
+                    results = ProductionCSV().get_production_csv(
+                        item.file, item.category, year
                     )
+                    for item in results:
+                        data.append(
+                            ProductionResponse(
+                                category=item.category,
+                                name=item.name,
+                                quantity=item.quantity,
+                            )
+                        )
 
-            return data
+                return data
+            except FileNotFoundError as e:
+                raise Exception(f"ERRO: Arquivo {actualConfig.file} não encontrado.")
+            except PermissionError:
+                raise Exception(f"ERRO: Sem permissão para ler o arquivo {actualConfig.file}.")
+            except IOError as e:
+                raise Exception(f"ERRO de E/S ao tentar ler o arquivo '{actualConfig.file}': {e}")
+            except Exception as e:
+                raise
+        except Exception as e:
+            raise

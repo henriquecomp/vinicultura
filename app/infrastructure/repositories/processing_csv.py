@@ -3,24 +3,32 @@ import json
 from app.application.DTOs.processing_response import ProcessingResponse
 import pandas as pd
 
-def retornar_processamento_csv(file_path, categoria, ano):
-
-    # Carregar o CSV com delimitador ';'
-    df = pd.read_csv(file_path, delimiter=';')
-
-    # Filtrar e construir a lista de dicionários
-    resultado = [
-        {"category": categoria,"name": row["cultivar"], "quantity": int(row[ano])}
-        for _, row in df.iterrows()
-    ]
-    return json.dumps(resultado, ensure_ascii=False, indent=2)
-
-
 class ProcessingCSV:
 
     def get_processing_csv(
         self, file_path, category, year
     ) -> list[ProcessingResponse]:
+        """
+        Serviço que configura a leitura de dados referentes ao Processamento de Uvas
+        e trata o retorno da leitura devolvida para o endpoint
+
+        Args:
+            file_path: str, # Caminho do arquivo CSV a ser trabalhado
+            category: str, # Categoria de comercialilzação
+            year: int, # Ano que é passado por parametro pelo endpoint para filtrar os dados para a importação
+
+        Returns:
+            list: Uma lista dos dados de processamento importado dos arquivos CSV
+                [
+                    {
+                        "category": str, # categoria do produto
+                        "name": str, # Produto
+                        "quantity": float, # a quantidade em Kg do produto processado
+                    }
+                ]
+
+        """
+
         df = pd.read_csv(file_path, delimiter=";")
         data = []
         for _, row in df.iterrows():
