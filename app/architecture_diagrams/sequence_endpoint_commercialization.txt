@@ -1,5 +1,3 @@
-## Commercialization
-
 @startuml
 autonumber
 actor Usuario
@@ -22,12 +20,29 @@ alt Token Válido
         Application -> Config: get_config("Commercialization") 
         Config --> Application: list[ConfigResponse]
         loop para cada item na lista de configuração
-            Application -> UrlHandler: url_handler(url, year)
-            UrlHandler --> Application: str (url)
-            Application -> Scrape: get_commercialization(url)
-            Scrape -> BaseScrape: BaseScrape(url).handle()
-            BaseScrape --> Scrape: list[BaseScrapeValueObject]
-            Scrape --> Application: list[CommercializationResponse]
+            alt
+                Application -> UrlHandler: url_handler(url, year)
+                UrlHandler --> Application: str (url)
+                Application -> Scrape: get_commercialization(url)
+                Scrape -> BaseScrape: BaseScrape(url).handle()
+                BaseScrape --> Scrape: list[BaseScrapeValueObject]
+                Scrape --> Application: list[CommercializationResponse]
+            else ConnectionError
+                loop para cada item na lista de configuração
+                    alt
+                        Application -> CSV : get_commercialization_csv(file, category, year)
+                        CSV --> Application : list[CommercializationResponse]
+                    else FileNotFoundError
+                        Application --> Controller : Exception
+                    else PermissionError
+                        Application --> Controller : Exception
+                    else IOError
+                        Application --> Controller : Exception
+                    else Exception
+                        Application --> Controller : Exception
+                    end
+                end              
+            end             
         end
         Application --> Controller: list[CommercializationResponse]
         Controller --> Usuario: 200 + list[CommercializationResponse]        

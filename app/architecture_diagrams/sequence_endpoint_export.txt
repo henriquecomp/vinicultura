@@ -21,12 +21,29 @@ alt Token Válido
         Application -> Config: get_category(category) 
         Config --> Application: list[ConfigResponse]        
         loop para cada item na lista de configuração
-            Application -> UrlHandler: url_handler(url, year)
-            UrlHandler --> Application: str (url)
-            Application -> Scrape: get_export(url)
-            Scrape -> BaseScrape: BaseScrape(url).handle()
-            BaseScrape --> Scrape: list[BaseScrapeValueObject]
-            Scrape --> Application: list[ExportResponse]
+            alt
+                Application -> UrlHandler: url_handler(url, year)
+                UrlHandler --> Application: str (url)
+                Application -> Scrape: get_export(url)
+                Scrape -> BaseScrape: BaseScrape(url).handle()
+                BaseScrape --> Scrape: list[BaseScrapeValueObject]
+                Scrape --> Application: list[ExportResponse]
+            else ConnectionError
+                loop para cada item na lista de configuração
+                    alt
+                        Application -> CSV : get_export_csv(file, category, year)
+                        CSV --> Application : list[ExportResponse]
+                    else FileNotFoundError
+                        Application --> Controller : Exception
+                    else PermissionError
+                        Application --> Controller : Exception
+                    else IOError
+                        Application --> Controller : Exception
+                    else Exception
+                        Application --> Controller : Exception
+                    end
+                end              
+            end 
         end
         Application --> Controller: list[ExportResponse]
         Controller --> Usuario: 200 + list[ExportResponse]
