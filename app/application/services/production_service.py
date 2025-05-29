@@ -50,7 +50,7 @@ class ProductionService:
                         )
                     )
             return data
-        except ConnectionError as e:
+        except Exception as e:
             try:
                 data.clear()
                 for item in config:
@@ -76,5 +76,3 @@ class ProductionService:
                 raise Exception(f"ERRO de E/S ao tentar ler o arquivo '{actualConfig.file}': {e}")
             except Exception as e:
                 raise
-        except Exception as e:
-            raise
