@@ -16,7 +16,7 @@ def get_import(token: Annotated[str, Depends(oauth2_scheme)], year: int = 2024, 
         Recupera os dados da importação de produtos de uva
 
         Args:
-            year (int): Ano que deseja ver os dados. Caso não informado, o valor padrão será 2023.        
+            year (int): Ano que deseja ver os dados. Caso não informado, o valor padrão será 2024.        
             category (ImportEnum): Categoria da uva, o valor padrão será em "" e trará a categoria Vinhos de Mesa.
 
         Returns:
