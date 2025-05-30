@@ -37,8 +37,6 @@ class ProductionService:
         actualConfig: ConfigResponse = None
         try:
             for item in config:
-
-                res = 1/0
                 actualConfig = item                
                 url = UrlHandler().url_handler(item.url, year)
                 production_scrape = ProductionScrape()
