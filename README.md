@@ -8,8 +8,11 @@ Este é um projeto desenvolvido em FastAPI, que inclui web scraping do site http
 - Web scraping de dados de comercialização (/commercialization)
 - Web scraping de dados de importação (/import)
 - Web scraping de dados de exportação (/export)
+- Fallback para CSV em caso de erro do site da embrapa
 - Cadastro de usuário (/users)
 - Alteração de senha do usuário autenticado (/change-password)
+- Logs requisições de entrada e saída da aplicação
+
 
 ## Estrutura do Projeto
 ```bash
@@ -248,32 +251,6 @@ docker run -p 8000:8000 vinicultura
 ## Documentação da API
 A documentação da API é gerada automaticamente com Swagger e está disponível em `http://127.0.0.1:8000/docs/`  
 
-## Backlog
-- Tirar as urls e colocar em um arquivo de configuração (Henrique) - OK
-- Ler os arquivos csvs e transformar em resposta em caso de falha da url (Eliel)
-- Services
-- Controllers => Generica
-```bash
-try 
-raise Base de dados (Usuario)
-raise Comunicacao
-raise File
-raise Pandas
-raise Exception
-```
-- Deixar a aplicação resiliente com try raise (Eliel) - OK
-- Cadastro de usuário (Henrique) - OK
-- JWT Token e fechar as rotas (Henrique) - OK
-- Alterar senha do usuário desde que ele esteja logado. - OK
-- Logs (Henrique) - OK
-- Testes unitários (Henrique) - OK
-    - Fazer mais dos scrapes (Henrique)
-- Deploy na nuvem (Henrique) - OK
-- Documentar os métodos com DocString (Henrique) - OK
-- Criar o diagrama de arquitetura 
-    Henrique -> Deve adicionar o parametro category dos controllers processing, import e export - OK
-    Eliel -> Deve adicionar a logica do CSV -  OK
-- Video de apresentacao (Henrique e Eliel)
-- Documentar no README conforme solicitação da FIAP (Henrique) - OK
-- Documentar os métodos com DocString da parte de CSV (Eliel)
-- No arquivo security_service tem a chave da api. Devemos modificar para o .env  (Henrique)
+
+## URL de demonstração
+https://vinicultura.onrender.com/docs

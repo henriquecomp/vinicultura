@@ -13,7 +13,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 @router.get("/export/")
 def get_export(
     token: Annotated[str, Depends(oauth2_scheme)],
-    year: int = 2023,
+    year: int = 2024,
     category: ExportEnum = None,
 ) -> list[ExportResponse]:
     """

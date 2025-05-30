@@ -11,7 +11,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/login")
 
 
 @router.get("/import/")
-def get_import(token: Annotated[str, Depends(oauth2_scheme)], year: int = 2023, category: ImportEnum = None) -> list[ImportResponse]:
+def get_import(token: Annotated[str, Depends(oauth2_scheme)], year: int = 2024, category: ImportEnum = None) -> list[ImportResponse]:
     """
         Recupera os dados da importação de produtos de uva
 
