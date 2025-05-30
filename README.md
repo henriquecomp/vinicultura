@@ -1,6 +1,10 @@
 # Vinicultura
 Este é um projeto desenvolvido em FastAPI, que inclui web scraping do site http://vitibrasil.cnpuv.embrapa.br/. Em caso de falha no web scraping ele irá ler um arquivo com os dados que são disponibilizados para download. Só é possível realizar o scrape/ler os arquivos usuários que estão autenticados através de JWT Token válido.
 
+## Documentação de arquitetura
+- Acesse a pasta architecture_diagrams para visualizar os diagramas de sequencias das funcionalidades.
+- Para alterar os diagramas utilize o editor online https://editor.plantuml.com/ passando o conteúdo de uns dos arquivos txt
+
 ## Funcionalidades
 - Autenticação através de JWT Token (/login)
 - Web scraping de dados de produção (/production)
@@ -146,6 +150,7 @@ vinicultura
 
 **Tecnologias Principais**
 
+* **Clean Architecture:** Utilização da arquitetura para desenvolvimento do projeto.
 * **FastAPI (Python):** Framework web para construção da API.
 * **SQLAlchemy:** ORM para interação com o banco de dados.
 * **Alembic:** Ferramenta para gerenciamento de migrações de esquema de banco de dados. O projeto inclui uma migração para criar a tabela de usuários (`4c4de80eabb5_create_user_table.py`).
