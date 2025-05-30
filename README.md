@@ -142,68 +142,38 @@ vinicultura
         └── test_production_service_scrape.py
 ```
 
- - **`app/`** Esta é a pasta raiz da aplicação FastAPI. Ela contém toda a lógica e os componentes necessários para o funcionamento do sistema.
--   **`app/API/`**: Responsável pela camada de Interface de Programação de Aplicações (API).
-    -   **`app/API/common/`**: Contém módulos utilitários comuns para a camada de API, como o `check_access.py`, que lida com a validação de tokens de acesso.
-    -   **`app/API/controllers/`**: Define os endpoints da API (rotas). Cada arquivo aqui (ex: `auth_controller.py`, `production_controller.py`) gerencia as requisições HTTP para um recurso específico, validando entradas, chamando os serviços apropriados da camada de aplicação e formatando as respostas.
-    -   **`app/API/models/`**: Contém os modelos de dados Pydantic usados para validar os corpos das requisições e, possivelmente, formatar respostas.
-        -   **`app/API/models/requests/`**: Especificamente, define os modelos para os dados esperados nas requisições (ex: `user_create_request.py`, `user_change_password_request.py`).
--   **`app/alembic/`**: Configuração e scripts para o Alembic, uma ferramenta de migração de banco de dados para SQLAlchemy.
-    
-    -   **`app/alembic/versions/`**: Armazena os arquivos de script de migração gerados pelo Alembic, que descrevem as alterações no esquema do banco de dados ao longo do tempo (ex: `4c4de80eabb5_create_user_table.py` que cria a tabela de usuários).
-    -   `alembic.ini` e `env.py` são arquivos de configuração do Alembic.
-    
--   **`app/application/`**: Representa a camada de lógica de aplicação (ou camada de serviço). Ela orquestra as interações entre a camada de API e a camada de domínio/infraestrutura.
-    
-    -   **`app/application/common/`**: Módulos utilitários para a camada de aplicação, como `config.py` para carregar configurações de URLs e arquivos CSV de fallback, e `url_handler.py` para manipular URLs usadas na raspagem de dados.
-   
-    -   **`app/application/DTOs/`**: Contém os Data Transfer Objects (DTOs). São classes simples usadas para transferir dados entre camadas, especialmente para formatar respostas dos serviços para os controllers (ex: `production_response.py`, `user_response.py`).
-    
-    -   **`app/application/services/`**: Contém a lógica de negócio principal da aplicação. Os serviços (ex: `production_service.py`, `user_service.py`) são responsáveis por executar as tarefas solicitadas pelos controllers, interagir com repositórios e outros serviços. Eles também implementam a lógica de fallback para ler arquivos CSV em caso de falha na raspagem de dados.
-    
-- **`architecture_diagrams`**: Contém os diagramas de sequencia  dos endpoints da aplicação. 	     
-	- Os arquivos .txt podem ser modificados no site https://editor.plantuml.com/  
-	- Os arquivos .png são gerados a partir dos arquivos .txt no site https://editor.plantuml.com/ e realizado o download da imagem para melhor compreensão.
-    
--   **`app/domain/`**: Contém a lógica de domínio da aplicação, representando as entidades de negócio, regras e objetos de valor.
-    
-    -   **`app/domain/entities/`**: Define as entidades principais do domínio, como a classe `User` que mapeia para a tabela de usuários no banco de dados.
-    
-    -   **`app/domain/enums/`**: Define enumerações usadas no domínio para representar conjuntos fixos de valores (ex: `ExportEnum`, `ProcessingEnum`).
-    
-    -   **`app/domain/repositories/`**: Define as interfaces (contratos) para os repositórios de dados (ex: `UserRepository`). Estas interfaces abstraem a forma como os dados são persistidos ou recuperados.
-    
-    -   **`app/domain/value_objects/`**: Contém objetos de valor, que são pequenos objetos representando conceitos simples do domínio (ex: `BaseScrapeValueObject` para padronizar o retorno da raspagem de dados).
-    
--   **`app/infrastructure/`**: Responsável pelos detalhes de implementação técnica, como acesso a banco de dados, serviços externos e arquivos.
-    
-    -   **`app/infrastructure/db/`**: Configuração e código relacionado ao banco de dados, como `database.py` que configura a engine SQLAlchemy e a sessão do banco de dados.
-    
-    -   **`app/infrastructure/external_services/`**: Módulos para interagir com serviços externos, principalmente para a raspagem de dados de sites da Embrapa (ex: `base_scrape.py`, `production_scrape.py`).
-    
-    -   **`app/infrastructure/files/`**: Armazena os arquivos CSV que servem como fonte de dados de fallback caso a raspagem de dados dos sites da Embrapa falhe (ex: `Comercio.csv`, `Producao.csv`).
-  
-    -   **`app/infrastructure/repositories/`**: Implementações concretas das interfaces de repositório definidas na camada de domínio. Por exemplo, `user_repository_sql.py` implementa o acesso aos dados do usuário usando SQLAlchemy, enquanto outros arquivos (ex: `production_csv.py`) implementam a leitura dos arquivos CSV de fallback.
-   
--   `app/config.json`: Arquivo de configuração central que armazena URLs para raspagem de dados e os caminhos para os arquivos CSV de fallback correspondentes a cada tipo de dado (Produção, Processamento, etc.).
-    
-- **`tests/`** Esta pasta contém os testes automatizados para a aplicação, garantindo a qualidade e o correto funcionamento do código.
+## Arquitetura e Tecnologias
 
--   **`tests/controllers/`**: Testes para os controllers da API, verificando se as rotas se comportam como esperado, se chamam os serviços corretamente e retornam as respostas adequadas (ex: `test_production_service.py`, embora o nome sugira teste de serviço, ele testa o _controller_ `production_controller`).
+**Tecnologias Principais**
 
--   **`tests/infrastructure/`**: Testes para os componentes da camada de infraestrutura.
--
-    -   **`tests/infrastructure/external_services/`**: Testes específicos para os serviços de raspagem de dados (ex: `test_base_scrape.py`, `test_production_scrape.py`), verificando se eles extraem e processam os dados corretamente das fontes externas (mockadas durante o teste).
-    
--   **`tests/services/`**: Testes para a lógica de negócio na camada de aplicação (serviços), verificando se as regras de negócio são aplicadas corretamente e se a interação com outras camadas (como repositórios e scrapers, geralmente mockados) funciona como esperado (ex: `test_production_service_scrape.py`).
+* **FastAPI (Python):** Framework web para construção da API.
+* **SQLAlchemy:** ORM para interação com o banco de dados.
+* **Alembic:** Ferramenta para gerenciamento de migrações de esquema de banco de dados. O projeto inclui uma migração para criar a tabela de usuários (`4c4de80eabb5_create_user_table.py`).
+* **JWT (JSON Web Tokens):** Para autenticação e autorização segura.
+* **Web Scraping:** Utiliza bibliotecas como `requests` e `BeautifulSoup` (implícito pela funcionalidade e arquivos como `base_scrape.py`).
+* **Pandas:** Para leitura e processamento dos arquivos CSV de fallback.
+* **Docker e Docker Compose:** Para facilitar a configuração do ambiente e o deploy da aplicação.
+* **Swagger UI:** Documentação da API gerada automaticamente e acessível via `/docs`.
 
--   `README.md`: Fornece informações sobre o projeto, como configuração do ambiente, instalação de dependências, como rodar a aplicação e os próximos passos do desenvolvimento.
+## Estrutura do Projeto (Simplificada)
 
--   `docker-compose.yml`: Define os serviços, redes e volumes para rodar a aplicação em containers Docker, facilitando o deploy e a configuração do ambiente.
-
--   `main.py`: Ponto de entrada da aplicação FastAPI. Ele inicializa a aplicação, inclui os routers dos controllers e pode configurar middlewares (como o de logging de requisições implementado).
--
--   `requirements.txt`: Lista todas as dependências Python do projeto com suas versões específicas, permitindo a recriação do ambiente de forma consistente.
+* **`app/api` (Camada de API):**
+    * `controllers`: Definem os endpoints (rotas) da API (ex: `production_controller.py`).
+    * `common/check_access.py`: Validação de token JWT.
+* **`app/application` (Camada de Aplicação/Serviços):**
+    * `services`: Contêm a lógica de negócio principal (ex: `production_service.py`).
+    * Implementam o fallback para CSV em caso de falha no scraping.
+    * `common/config.py`: Carrega configurações de URLs e arquivos CSV de fallback do `config.json`.
+* **`app/domain` (Camada de Domínio):**
+    * `entities`: Define as entidades de negócio (ex: `User`).
+    * `enums`: Enumerações para categorias de produtos (ex: `ExportEnum`).
+* **`app/infrastructure` (Camada de Infraestrutura):**
+    * `db`: Configuração do banco de dados (SQLite).
+    * `external_services`: Módulos de web scraping (ex: `production_scrape.py`).
+    * `files`: Armazena os arquivos CSV de fallback (ex: `Producao.csv`, `Comercio.csv`).
+    * `repositories`: Implementações concretas para acesso a dados (ex: `user_repository_sql.py`, `production_csv.py`).
+* **`app/config.json`:** Arquivo central que armazena URLs para scraping e caminhos dos arquivos CSV.
+* **`main.py`:** Ponto de entrada da aplicação FastAPI, configura middlewares de log.
 
 ## Pré Requisitos
 
