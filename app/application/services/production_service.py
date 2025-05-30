@@ -37,16 +37,19 @@ class ProductionService:
         actualConfig: ConfigResponse = None
         try:
             for item in config:
+
+                res = 1/0
                 actualConfig = item                
                 url = UrlHandler().url_handler(item.url, year)
                 production_scrape = ProductionScrape()
                 results = production_scrape.get_production(url)
-                for item in results:
+                for item in results:                    
                     data.append(
                         ProductionResponse(
                             category=item.category,
                             name=item.name,
                             quantity=item.quantity,
+                            source="SCRAP",
                         )
                     )
             return data
@@ -64,6 +67,7 @@ class ProductionService:
                                 category=item.category,
                                 name=item.name,
                                 quantity=item.quantity,
+                                source="CSV"
                             )
                         )
 

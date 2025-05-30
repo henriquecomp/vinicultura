@@ -6,3 +6,4 @@ class ProductionResponse:
     category: str
     name: str
     quantity: float
+    source: str = None

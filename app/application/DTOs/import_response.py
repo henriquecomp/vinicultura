@@ -7,3 +7,4 @@ class ImportResponse:
     country: str
     quantity: float
     value: float
+    source: str = None

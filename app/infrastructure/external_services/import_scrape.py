@@ -29,7 +29,6 @@ class ImportScrape:
         """            
         result = BaseScrape(url).handle()
         data = []
-
         for item in result:
             data.append(ImportResponse(
                 category=self.category,

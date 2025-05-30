@@ -51,11 +51,12 @@ class ExportService:
                             country=item.country,
                             quantity=item.quantity,
                             value=item.value,
+                            source="SCRAP"
                         )
                     )
 
             return data
-        except ConnectionError as e:
+        except Exception as e:
             try:
                 data.clear()
                 for item in config:                
@@ -67,7 +68,8 @@ class ExportService:
                                 category=item.category,
                                 country=item.country,
                                 quantity=item.quantity,
-                                value=item.value
+                                value=item.value,
+                                source="CSV"
                             )
                         )
 

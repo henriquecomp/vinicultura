@@ -7,3 +7,4 @@ class ExportResponse():
     country: str
     quantity: float
     value: float
+    source: str = None

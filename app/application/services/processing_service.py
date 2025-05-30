@@ -51,10 +51,11 @@ class ProcessingService:
                             category=item.category,
                             name=item.name,
                             quantity=item.quantity,
+                            source="SCRAP"
                         )
                     )
             return data
-        except ConnectionError as e:
+        except Exception as e:
             try:
                 data.clear()
                 for item in config:
@@ -68,6 +69,7 @@ class ProcessingService:
                                 category=item.category,
                                 name=item.name,
                                 quantity=item.quantity,
+                                source="CSV"
                             )
                         )
                 return data
