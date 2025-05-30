@@ -21,7 +21,7 @@ def get_export(
 
     Args:
         year (int): Ano que deseja ver os dados. Caso não informado, o valor padrão será 2023.
-        category (ExportEnum): Categoria da uva, o valor padrão será em "" e trará todas as categorias.
+        category (ExportEnum): Categoria da uva, o valor padrão será em "" e trará a categoria Vinho de mesa
 
 
     Returns:

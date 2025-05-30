@@ -100,7 +100,7 @@ class BaseScrape:
                     quantity = self._clean_numeric_data(quantity_text)                        
                     value = 0.0 
                     if len(cells) > 2: 
-                        value_text_source = cells[1].get_text(strip=True)
+                        value_text_source = cells[2].get_text(strip=True)
                         value = self._clean_numeric_data(value_text_source)
                     
                     data_list.append(

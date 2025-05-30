@@ -17,7 +17,7 @@ def get_processing(token: Annotated[str, Depends(oauth2_scheme)], year: int = 20
 
         Args:
             year (int): Ano que deseja ver os dados. Caso não informado, o valor padrão será 2023.        
-            category (ProcessingEnum): Categoria da uva, o valor padrão será em "" e trará todas as categorias.
+            category (ProcessingEnum): Categoria da uva, o valor padrão será em "" e trará a categoria VINIFERAS.
 
         Returns:
             list: Uma lista seguindo a estrutura:
